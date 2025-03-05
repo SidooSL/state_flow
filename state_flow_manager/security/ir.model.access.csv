@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+state_flow_manager.access_state_flow_process,access_state_flow_process,state_flow_manager.model_state_flow_process,base.group_user,1,1,1,1
+state_flow_manager.access_state_flow_state,access_state_flow_state,state_flow_manager.model_state_flow_state,base.group_user,1,1,1,1
+state_flow_manager.access_state_flow_transition,access_state_flow_transition,state_flow_manager.model_state_flow_transition,base.group_user,1,1,1,1
