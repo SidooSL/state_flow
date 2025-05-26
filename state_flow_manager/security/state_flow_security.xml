@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0"> <!-- noupdate="0" para que se creen/actualicen -->
+
+        <record id="module_state_flow_manager_category" model="ir.module.category">
+            <field name="name">State Flow Management</field>
+            <field name="description">User access levels for State Flow Management module</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="group_state_flow_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Default user access to state flow functionalities.</field>
+        </record>
+
+        <record id="group_state_flow_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="implied_ids" eval="[(4, ref('group_state_flow_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+            <field name="comment">Allows managing state flow processes, states, and transitions.</field>
+        </record>
+
+        <record id="group_state_flow_purchasing_admin" model="res.groups">
+            <field name="name">Purchasing Admin (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Coordinates supplier certification process, requests reviews.</field>
+        </record>
+
+        <record id="group_state_flow_technical_evaluator" model="res.groups">
+            <field name="name">Technical/Quality Evaluator (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Evaluates technical competencies, quality standards for suppliers.</field>
+        </record>
+
+        <record id="group_state_flow_financial_evaluator" model="res.groups">
+            <field name="name">Financial Evaluator (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Evaluates financial solvency and risks for suppliers.</field>
+        </record>
+
+        <record id="group_state_flow_legal_evaluator" model="res.groups">
+            <field name="name">Legal Evaluator (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Verifies legal, labor, and fiscal aspects of suppliers.</field>
+        </record>
+
+        <record id="group_state_flow_auditor" model="res.groups">
+            <field name="name">Auditor (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Performs audits on suppliers when required.</field>
+        </record>
+
+        <record id="group_state_flow_homologation_committee" model="res.groups">
+            <field name="name">Homologation Committee (State Flow)</field>
+            <field name="category_id" ref="module_state_flow_manager_category"/>
+            <field name="comment">Makes the final decision in the supplier certification process.</field>
+        </record>
+
+    </data>
+</odoo> 

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_state_flow_interface" name="State Flow Portal Interface">
+        <t t-if="object and hasattr(object, 'process_id') and object.process_id and object.current_state_id">
+            <div class="o_portal_state_flow_details mt-4 mb-4 p-3 border rounded">
+                <h4>Test</h4>
+                <!-- <h4><t t-out="object.process_id.name"/> - Status</h4> -->
+                <!-- <p class="lead">
+                    Current State: 
+                    <span t-attf-class="badge #{object.current_state_id.get_portal_status_class() if hasattr(object.current_state_id, 'get_portal_status_class') else 'badge-secondary'}">
+                        <i t-if="object.current_state_id.icon_class" t-att-class="object.current_state_id.icon_class" role="img" t-att-aria-label="object.current_state_id.name" t-att-title="object.current_state_id.name"></i>
+                        <t t-out="object.current_state_id.name"/>
+                    </span>
+                </p>
+
+                <t t-if="object.available_transition_ids">
+                    <form t-attf-action="/my/object/#{object._name}/#{object.id}/transition" method="POST" class="mt-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="redirect_url" t-att-value="request.httprequest.url"/>
+                        <input type="hidden" name="access_token" t-att-value="access_token" t-if="access_token"/>
+                        
+                        <div class="form-group">
+                            <label for="selected_transition_id">Available Actions:</label>
+                            <select name="selected_transition_id" class="form-control" required="True">
+                                <option value="">Select an action...</option>
+                                <t t-foreach="object.available_transition_ids" t-as="transition">
+                                    <option t-att-value="transition.id">
+                                        <t t-out="transition.name"/>
+                                        <t t-if="transition.description"> (<t t-out="transition.description"/>)</t>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Execute Action</button>
+                    </form>
+                </t>
+                <t t-else="">
+                    <p class="text-muted mt-3">No further actions available at this time.</p>
+                </t>
+
+                <t t-if="request.session.get('state_flow_error_message')">
+                    <div t-attf-class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <t t-out="request.session.pop('state_flow_error_message')"/>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">×</span>
+                        </button>
+                    </div>
+                </t>
+                <t t-if="request.session.get('state_flow_success_message')">
+                     <div t-attf-class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <t t-out="request.session.pop('state_flow_success_message')"/>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">×</span>
+                        </button>
+                    </div>
+                </t> -->
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_layout_inherit_state_flow" name="Portal Layout: State Flow" inherit_id="portal.portal_layout">
+        <xpath expr="//div[@id='wrap']/div[1]" position="before">
+            <!-- This will try to inject the state flow interface at the beginning of #wrapwrap or main -->
+            <t t-if="object and object.process_id and object.current_state_id">
+                <div class="o_portal_state_flow_details mt-4 mb-4 p-3 border rounded">
+                    <h4><t t-out="object.process_id.name"/> - Status</h4>
+                    <p class="lead">
+                        Current State: 
+                        <span>
+                            <i t-if="object.current_state_id.icon_class" t-att-class="object.current_state_id.icon_class" role="img" t-att-aria-label="object.current_state_id.name" t-att-title="object.current_state_id.name"></i>
+                            <t t-out="object.current_state_id.name"/>
+                        </span>
+                    </p>
+                    <!-- <t t-if="object.available_transition_ids">
+                        <form t-attf-action="/my/object/#{object._name}/#{object.id}/transition" method="POST" class="mt-3">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="redirect_url" t-att-value="request.httprequest.url"/>
+                            <input type="hidden" name="access_token" t-att-value="access_token" t-if="access_token"/>
+                            
+                            <div class="form-group">
+                                <label for="selected_transition_id">Available Actions:</label>
+                                <select name="selected_transition_id" class="form-control" required="True">
+                                    <option value="">Select an action...</option>
+                                    <t t-foreach="object.available_transition_ids" t-as="transition">
+                                        <option t-att-value="transition.id">
+                                            <t t-out="transition.name"/>
+                                            <t t-if="transition.description"> (<t t-out="transition.description"/>)</t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Execute Action</button>
+                        </form>
+                    </t> -->
+                </div>
+            </t>
+                <!-- <t t-if="request and hasattr(request, 'env') and hasattr(request.env, 'context') and request.env.context.get('object')">
+                <t t-set="object" t-value="request.env.context.get('object')"/>
+                <t t-if="object and hasattr(object, 'process_id') and object.process_id">
+                    <t t-call="state_flow_manager.portal_state_flow_interface">
+                        <t t-set="model_name" t-value="object._name"/>
+                        <t t-set="access_token" t-value="access_token" t-if="access_token"/>
+                    </t>
+                </t>
+            </t> -->
+        </xpath>
+    </template>
+
+    <!-- Optional: Helper on state.flow.state to provide CSS classes for portal badges -->
+    <!-- This would require adding this method to the model in Python -->
+    <!-- 
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="State Flow Portal Assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript">
+                odoo.define('state_flow_manager.portal_status_class', function (require) {
+                'use strict';
+                    var publicWidget = require('web.public.widget');
+                    publicWidget.registry.StateFlowStatusHelper = publicWidget.Widget.extend({
+                        init: function () {
+                            this._super.apply(this, arguments);
+                            // Example: if a state model had a field 'color_class_portal'
+                            // This is just a placeholder for a more robust way to add dynamic styling
+                        },
+                    });
+                });
+            </script>
+        </xpath>
+    </template>
+    -->
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_state_flow" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.state.flow</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="before">
+                 <!-- Standard State Flow Header -->
+                <div class="o_form_statusbar position-relative">
+                    <!-- <t t-call="state_flow_manager.StateFlowHeader"/> -->
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <group string="State Flow Diagram" name="state_flow_diagram_group" invisible="process_id == False">
+                     <field name="process_id" invisible="1"/>
+                     <field name="current_state_id" invisible="1"/>
+                     <field name="id" invisible="1"/>
+                     <field name="name" widget="state_flow_diagram" nolabel="1" record="record"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo> 

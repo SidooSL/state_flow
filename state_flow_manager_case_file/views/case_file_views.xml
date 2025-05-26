@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for case.file -->
+    <record id="view_case_file_form" model="ir.ui.view">
+        <field name="name">case.file.form</field>
+        <field name="model">case.file</field>
+        <field name="arch" type="xml">
+            <form string="Case File">
+                <!-- State Flow Manager Container -->
+                <!-- This field `id` is just a carrier for the widget. The widget uses props.record -->
+                <field name="id" widget="state_flow_manager_container" nolabel="1" readonly="1"/>
+                
+                <!-- Ensure necessary fields for the widget are available, even if invisible -->
+                <field name="process_id" invisible="1"/>
+                <field name="current_state_id" invisible="1"/>
+                <field name="available_transition_ids" invisible="1"/>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Case File Title..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="reference_number"/>
+                            <field name="responsible_user_id" widget="many2one_avatar_user"/>
+                        </group>
+                        <group>
+                            <!-- process_id is now invisible above, but can be shown here if needed for direct editing -->
+                            <field name="process_id" widget="selection" domain="[('model_id.model', '=', 'case.file')]" options="{'no_create': True}"/>
+                            <field name="current_state_id" widget="badge" readonly="1"/>
+                            <field name="available_transition_ids" widget="many2many_tags"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    
+                    <!-- State Flow Diagram Section -->
+                    <!-- <group string="State Flow Diagram" name="state_flow_diagram_group" invisible="not process_id">
+                        <field name="name" widget="state_flow_diagram" nolabel="1"/> 
+                    </group> -->
+                    
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Detailed description of the case file..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree/List View for case.file -->
+    <record id="view_case_file_list" model="ir.ui.view">
+        <field name="name">case.file.list</field>
+        <field name="model">case.file</field>
+        <field name="arch" type="xml">
+            <list string="Case Files">
+                <field name="reference_number"/>
+                <field name="name"/>
+                <field name="process_id" optional="show"/>
+                <field name="current_state_id" optional="show"/>
+                <field name="responsible_user_id" optional="show" widget="many2one_avatar_user"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action for case.file -->
+    <record id="action_case_file" model="ir.actions.act_window">
+        <field name="name">Case Files</field>
+        <field name="res_model">case.file</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Case File (Expediente).
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem 
+        id="menu_case_file_root"
+        name="Case Files"
+        sequence="20" 
+        web_icon="state_flow_manager_case_file,static/description/icon.png"/> 
+        <!-- Assuming you will add an icon.png to static/description -->
+
+    <menuitem 
+        id="menu_case_file_all"
+        name="All Case Files"
+        parent="menu_case_file_root"
+        action="action_case_file"
+        sequence="10"/>
+
+</odoo> 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_state_flow_transition_tree_no_create" model="ir.ui.view">
+        <field name="name">state_flow.transition.tree.no.create</field>
+        <field name="model">state.flow.transition</field>
+        <field name="arch" type="xml">
+            <list string="State Flow Transitions" create="false" delete="false" edit="false">
+                <field name="sequence" widget="handle"/>
+                <field name="name" readonly="1"/>
+                <field name="process_id" readonly="1"/>
+                <field name="from_state_id" readonly="1"/>
+                <field name="to_state_id" readonly="1"/>
+                <field name="server_action_id" optional="show" readonly="1"/>
+                <field name="allowed_group_ids" widget="many2many_tags" optional="show" readonly="1"/>
+            </list>
+        </field>
+    </record>
+</odoo> 

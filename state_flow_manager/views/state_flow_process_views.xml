@@ -1,51 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_state_flown_process_form" model="ir.ui.view">
+    <record id="view_state_flow_process_form" model="ir.ui.view">
         <field name="name">state_flow.process.form</field>
         <field name="model">state.flow.process</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_open_web_diagram" type="object" string="View Web Diagram" class="oe_highlight"/>
+                </header>
                 <sheet>
+                    <h1><field name="name"/></h1>
                     <group>
-                        <field name="name"/>
-                        <field name="description"/>
-                        <field name="model_id"/>
-                        <field name="domain"/>
+                        <group>
+                            <field name="model_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="domain" widget="domain" options="{'model': 'model_name_for_domain'}" placeholder="e.g. [('is_company', '=', True)]"/>
+                            <field name="model_name_for_domain" invisible="1"/>
+                        </group>
                     </group>
                     <notebook>
-                        <page string="States">
-                            <field name="state_ids" foce_save="1">
-                                <list editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="name"/>
-                                </list>
-                            </field>
-                        </page>
-                        <page string="Transitions">
-                            <field name="transition_ids">
+                        <page string="States" name="states">
+                            <field name="state_ids" context="{'default_process_id': id}">
                                 <list>
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
-                                    <field name="from_state_id"/>
-                                    <field name="to_state_id"/>
+                                    <field name="description" optional="show"/>
+                                    <field name="icon_class" optional="show" placeholder="e.g., fa-check-circle"/>
                                 </list>
+                                <!-- Optional: Form view for states if needed for more complex fields later -->
                                 <form>
                                     <group>
-                                        <field name="name"/>
-                                        <field name="sequence"/>
-                                        <field name="from_state_id"/>
-                                        <field name="to_state_id"/>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="sequence"/>
+                                            <field name="allow_change_process"/>
+                                        </group>
+                                        <group>
+                                            <field name="icon_class" placeholder="e.g., fa-check-circle, fa-play, fa-stop"/>
+                                        </group>
                                     </group>
-                                    <group>
-                                        <field name="model_name" invisible="1" force_save="True"/>
-                                        <field name="model_id" options="{'no_create': True}"/>
-                                        <field name="server_action_id"/>
-                                        <field name="domain" widget="domain" options="{'model': 'model_name', 'in_dialog': True}"/>
-                                        <field name="domain_fail_message"/>
-                                        
-                                    </group>
+                                    <field name="description" placeholder="Detailed description of this state..."/>
+                                    <notebook>
+                                        <page string="Write Access Control" name="write_access">
+                                            <group>
+                                                <group string="Groups and Users">
+                                                    <field name="allowed_write_group_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Select groups that can edit records in this state"/>
+                                                    <field name="allowed_write_user_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Select specific users that can edit records in this state"/>
+                                                </group>
+                                                <group string="Advanced Access Control" groups="base.group_system">
+                                                    <field name="write_access_code" widget="ace" options="{'mode': 'python'}" 
+                                                           placeholder="# Python code for dynamic write access control&#10;# Context: 'record', 'user', 'env'&#10;# Must return True/False&#10;# Example: record.project_manager_id == user"/>
+                                                </group>
+                                            </group>
+                                            <div class="alert alert-info" role="alert" groups="base.group_system">
+                                                <strong>Access Control Logic:</strong>
+                                                <ul class="mb-0">
+                                                    <li>If groups or users are specified above, they will be checked first</li>
+                                                    <li>Python code is executed only if no groups/users are specified or they don't grant access</li>
+                                                    <li>Standard Odoo access rights always apply in addition to these rules</li>
+                                                </ul>
+                                            </div>
+                                        </page>
+                                    </notebook>
                                 </form>
                             </field>
+                        </page>
+                        <page string="Transitions" name="transitions">
+                            <field name="transition_ids" context="{'default_process_id': id, 'parent_model_id': model_id}">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="from_state_id" domain="[('process_id', '=', parent.id)]" options="{'no_create': True}"/>
+                                    <field name="to_state_id" domain="[('process_id', '=', parent.id)]" options="{'no_create': True}"/>
+                                    <field name="server_action_id" optional="show"/>
+                                    <field name="allowed_group_ids" widget="many2many_tags" optional="show"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="from_state_id" options="{'no_create': True}" required="1"/>
+                                                <field name="server_action_id" domain="[('model_id', '=', parent.model_id)]" options="{'no_create': True}"/>
+                                            </group>
+                                            <group>
+                                                <field name="description" placeholder="What happens during this transition?"/>
+                                                <field name="to_state_id" options="{'no_create': True}" required="1"/>
+                                                <field name="sequence"/>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Pre-conditions" name="pre_conditions">
+                                                <group>
+                                                    <field name="model_name_for_domain" invisible="1" force_save="True"/>
+                                                    <field name="pre_condition_domain" widget="domain" options="{'model': 'model_name_for_domain', 'in_dialog': True}"/>
+                                                    <field name="domain_fail_message" placeholder="e.g., The record must be active." attrs="{'invisible': [('pre_condition_domain', 'in', ('[]', False, ''))]}"/>
+                                                </group>
+                                            </page>
+                                            <page string="Post-conditions" name="post_conditions">
+                                                 <group>
+                                                    <field name="post_transition_domain" widget="domain" options="{'model': 'model_name_for_domain', 'in_dialog': True}"/>
+                                                    <field name="post_transition_fail_message" placeholder="e.g., The record must now be in 'Validated' stage." attrs="{'invisible': [('post_transition_domain', 'in', ('[]', False, ''))]}"/>
+                                                </group>
+                                            </page>
+                                            <page string="Access Rights" name="access_rights">
+                                                <group>
+                                                    <group string="Groups and Users">
+                                                        <field name="allowed_group_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Select groups that can edit records in this state"/>
+                                                        <field name="allowed_user_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Select specific users that can edit records in this state"/>
+                                                    </group>
+                                                    <group string="User Field">
+                                                        <field name="user_field_id" options="{'no_create': True}"/>
+                                                        <field name="user_field_ids" options="{'no_create': True}" widget="many2many_tags" placeholder="Select fields that can edit records in this state"  />
+                                                    </group>
+                                                    <group string="Advanced Access Control" groups="base.group_system">
+                                                        <field name="allowed_users_code" widget="ace" options="{'mode': 'python'}" 
+                                                            placeholder="# Python code for dynamic write access control&#10;# Context: 'record', 'user', 'env'&#10;# Must return True/False&#10;# Example: record.project_manager_id == user"/>
+                                                    </group>
+                                                </group>
+                                                <div class="alert alert-info" role="alert" groups="base.group_system">
+                                                    <strong>Access Control Logic:</strong>
+                                                    <ul class="mb-0">
+                                                        <li>If groups or users are specified above, they will be checked first</li>
+                                                        <li>Python code is executed only if no groups/users are specified or they don't grant access</li>
+                                                        <li>Standard Odoo access rights always apply in addition to these rules</li>
+                                                    </ul>
+                                                </div>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Detailed description of the process..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -53,22 +142,24 @@
         </field>
     </record>
 
-    <record id="view_state_flown_process_tree" model="ir.ui.view">
+    <record id="view_state_flow_process_tree" model="ir.ui.view">
         <field name="name">state_flow.process.tree</field>
         <field name="model">state.flow.process</field>
         <field name="arch" type="xml">
-            <list string="State FlowN Processes">
+            <list string="State Flow Processes">
                 <field name="name"/>
+                <field name="model_id"/>
+                <field name="description" optional="hide"/>
             </list>
         </field>
     </record>
 
-
     <record id="action_state_flow_process" model="ir.actions.act_window">
         <field name="name">State Flow Processes</field>
+        <field name="path">state_flow</field>
         <field name="res_model">state.flow.process</field>
         <field name="view_mode">list,form</field>
     </record>
     <menuitem id="menu_state_flow_process_manager" name="State Flow Process Manager" sequence="10"/>
-    <menuitem id="menu_state_flown_processes" name="Processes" parent="menu_state_flow_process_manager" action="action_state_flow_process" sequence="10"/>
+    <menuitem id="menu_state_flow_processes" name="Processes" parent="menu_state_flow_process_manager" action="action_state_flow_process" sequence="10"/>
 </odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_inherit_state_flow" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.state.flow</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="before">
+                 <!-- Standard State Flow Header -->
+                <div class="o_form_statusbar position-relative">
+                    <!-- <t t-call="state_flow_manager.StateFlowHeader"/> -->
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <group string="State Flow Diagram" name="state_flow_diagram_group" invisible="process_id == False">
+                     <field name="process_id" invisible="1"/>
+                     <field name="current_state_id" invisible="1"/>
+                     <!-- 
+                        The state_flow_diagram widget needs the record context. 
+                        Using a placeholder field that passes the current record. 
+                        The widget JS should pick up 'record' from its props.
+                     -->
+                     <field name="id" invisible="1"/> <!-- Ensure record ID is available -->
+                     <field name="name" widget="state_flow_diagram" nolabel="1" record="record"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo> 

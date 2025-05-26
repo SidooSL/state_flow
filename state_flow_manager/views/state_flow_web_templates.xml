@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="state_flow_web_diagram_page" name="State Flow Process Diagram">
+        <t t-call="web.layout">
+            <t t-call-assets="web.assets_frontend" />
+            <t t-set="html_data" t-value="{'style': 'height: 100%;'}"/>
+            <t t-set="title" t-value="page_title or 'Process Diagram'"/>
+            
+            <!-- Toast Container -->
+            <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+                <div id="toastContainer" class="toast-container">
+                    <!-- Toasts will be appended here -->
+                </div>
+            </div>
+
+            <div class="container-fluid o_state_flow_page_container p-4">
+                <h1 class="mb-3">
+                    <t t-out="process.name"/>
+                </h1>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div id="mermaid_diagram_container" 
+                             class="border bg-white p-3 shadow-sm mb-3" 
+                             style="min-height: 450px; overflow: auto;"
+                             t-att-data-process-data="json.dumps(process_data_json)">
+                            <!-- Diagram will be rendered here by state_flow_web_page.js -->
+                            <div class="d-flex justify-content-center align-items-center h-100">
+                                <i class="fa fa-spinner fa-spin fa-3x text-muted"></i> Loading Diagram...
+                            </div>
+                        </div>
+                        <div class="process_description_container border bg-white p-3 shadow-sm">
+                            <h4>Process Description</h4>
+                            <div t-raw="process.description"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="position-sticky" style="top: 2rem;"> <!-- Adjust top value as needed for spacing -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">Process Details</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        <strong>Model:</strong> <span t-field="process.model_id.model"/><br/>
+                                        <!-- Description moved to main content area -->
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Actions</h5>
+                                </div>
+                                <div class="list-group list-group-flush">
+                                    <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addStateModal">
+                                        <i class="fa fa-plus-square-o me-2"></i>Add New State
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addTransitionModal">
+                                        <i class="fa fa-sitemap me-2"></i>Add New Transition
+                                    </button>
+                                    <a t-attf-href="/odoo/state_flow/{{process.id}}" class="list-group-item list-group-item-action">
+                                        <i class="fa fa-arrow-left me-2"></i>Back to Process Form
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add State Modal -->
+                <div class="modal fade" id="addStateModal" tabindex="-1" aria-labelledby="addStateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="addStateForm" method="POST" t-att-action="'/state_flow/process/' + str(process.id) + '/add_state'">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addStateModalLabel">Add New State</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-2">
+                                        <label for="state_name_modal" class="form-label">State Name</label>
+                                        <input type="text" class="form-control" id="state_name_modal" name="state_name" required="required" placeholder="New state name"/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="state_sequence_modal" class="form-label">Sequence</label>
+                                        <input type="number" class="form-control" id="state_sequence_modal" name="state_sequence" min="1" value="10"/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="state_description_modal" class="form-label">Description</label>
+                                        <textarea class="form-control" id="state_description_modal" name="state_description" rows="2" placeholder="Description (optional)"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Add State</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Transition Modal -->
+                <div class="modal fade" id="addTransitionModal" tabindex="-1" aria-labelledby="addTransitionModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="addTransitionForm" method="POST" t-att-action="'/state_flow/process/' + str(process.id) + '/add_transition'">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addTransitionModalLabel">Add New Transition</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-2">
+                                        <label for="transition_name_modal" class="form-label">Transition Name</label>
+                                        <input type="text" class="form-control" id="transition_name_modal" name="transition_name" required="required" placeholder="Transition name"/>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="from_state_id_modal" class="form-label">From State</label>
+                                        <select class="form-control" id="from_state_id_modal" name="from_state_id" required="required">
+                                            <option value="">Select origin state...</option>
+                                            <t t-foreach="process.state_ids" t-as="state">
+                                                <option t-att-value="state.id"><t t-out="state.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="to_state_id_modal" class="form-label">To State</label>
+                                        <select class="form-control" id="to_state_id_modal" name="to_state_id" required="required">
+                                            <option value="">Select destination state...</option>
+                                            <t t-foreach="process.state_ids" t-as="state">
+                                                <option t-att-value="state.id"><t t-out="state.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Add Transition</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                // Store messages popped from session by Python controller
+                const successMessage = "<t t-esc="request.session.pop('state_flow_success_message', '')"/>";
+                const errorMessage = "<t t-esc="request.session.pop('state_flow_error_message', '')"/>";
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toastContainer = document.getElementById('toastContainer');
+
+                    function showToast(message, type = 'info') {
+                        if (!message || !toastContainer) return;
+
+                        const toastId = 'toast-' + Date.now();
+                        let headerClass = 'text-dark'; // Default
+                        let toastClass = '';
+
+                        if (type === 'success') {
+                            headerClass = 'text-white';
+                            toastClass = 'bg-success';
+                        } else if (type === 'error' || type === 'danger') {
+                            headerClass = 'text-white';
+                            toastClass = 'bg-danger';
+                        } else if (type === 'warning') {
+                            headerClass = 'text-dark';
+                            toastClass = 'bg-warning';
+                        }
+
+                        const toastHTML = `
+                            <div id="${toastId}" class="toast ${toastClass}" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+                                <div class="toast-header ${headerClass} ${toastClass}">
+                                    <strong class="me-auto">${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+                                    <small>Just now</small>
+                                    <button type="button" class="btn-close ${headerClass === 'text-white' ? 'btn-close-white' : ''}" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    ${message}
+                                </div>
+                            </div>
+                        `;
+                        
+                        toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+                        
+                        const toastElement = document.getElementById(toastId);
+                        const toast = new bootstrap.Toast(toastElement);
+                        
+                        toastElement.addEventListener('hidden.bs.toast', function () {
+                            toastElement.remove(); // Clean up the DOM after toast is hidden
+                        });
+                        
+                        toast.show();
+                    }
+
+                    if (successMessage) {
+                        showToast(successMessage, 'success');
+                    }
+                    if (errorMessage) {
+                        showToast(errorMessage, 'error');
+                    }
+
+                    // Bootstrap 5 uses 'data-bs-toggle' and 'data-bs-target'
+                    // The modals should show automatically with these attributes.
+
+                    // Optional: Clear session messages if modals are used, to avoid duplicate display
+                    // if the server-side redirect still happens for any reason.
+                    // This might not be necessary if we move to full AJAX handling.
+                    var addStateModalEl = document.getElementById('addStateModal');
+                    if (addStateModalEl) {
+                        addStateModalEl.addEventListener('hidden.bs.modal', function () {
+                            // If using session messages, you might want to clear them or handle them client-side
+                        });
+                    }
+                    var addTransitionModalEl = document.getElementById('addTransitionModal');
+                    if (addTransitionModalEl) {
+                        addTransitionModalEl.addEventListener('hidden.bs.modal', function () {
+                            // If using session messages, you might want to clear them or handle them client-side
+                        });
+                    }
+
+                    // The forms will submit via standard HTTP POST for now.
+                    // If AJAX submission and dynamic updates are needed,
+                    // we'll need to add event listeners to the form submits,
+                    // preventDefault, and use fetch() or Odoo RPC.
+
+                    // Example of how to handle form submission with AJAX (currently not active)
+                    /*
+                    const addStateForm = document.getElementById('addStateForm');
+                    if (addStateForm) {
+                        addStateForm.addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const formData = new FormData(addStateForm);
+                            const actionUrl = addStateForm.action;
+                            
+                            fetch(actionUrl, {
+                                method: 'POST',
+                                body: new URLSearchParams(formData) // for application/x-www-form-urlencoded
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Assuming controller redirects on success, which will reload page
+                                    // Or if it returns JSON:
+                                    // return response.json(); 
+                                    window.location.reload(); // Simple reload for now
+                                } else {
+                                    // Handle errors - maybe show error in modal
+                                    // For now, let standard form submission error handling take over (page reload with error)
+                                    // throw new Error('Network response was not ok.');
+                                    alert('Error adding state. Please check the form.'); // Basic alert
+                                }
+                            })
+                            //.then(data => { // If handling JSON response
+                            //    if (data.success) {
+                            //        bootstrap.Modal.getInstance(addStateModalEl).hide();
+                            //        // Show success notification (Odoo or custom)
+                            //        // Refresh diagram (specific part or whole page)
+                            //        window.location.reload(); 
+                            //    } else {
+                            //        alert('Error: ' + data.error);
+                            //    }
+                            //})
+                            .catch(error => {
+                                console.error('Form submission error:', error);
+                                alert('An error occurred. Please try again.');
+                            });
+                        });
+                    }
+                    // Similar for addTransitionForm
+                    */
+                });
+            </script>
+        </t>
+    </template>
+</odoo>
