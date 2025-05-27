@@ -98,22 +98,24 @@ export class StateFlowManagerContainer extends Component {
         this.state.processName = processData && processData.length > 1 ? processData[1] : _t("No Process Selected");
 
         const currentStateData = record.data.current_state_id;
-        this.state.currentStateName = currentStateData && currentStateData.length > 1 ? currentStateData[1] : _t("No State");
-        this.state.currentStateId = currentStateData && currentStateData.length > 0 ? currentStateData[0] : null;
 
         // Get the icon class for the current state if available
         if (currentStateData && currentStateData.length > 0) {
             try {
                 const stateId = currentStateData[0];
+                this.state.currentStateId = stateId;
                 console.log("SFMContainer: Fetching icon_class for state ID:", stateId);
                 const stateDetails = await this.orm.call(
                     'state.flow.state',
                     'read',
-                    [stateId, ['icon_class']],
+                    [stateId, ['icon_class', 'name']],
                     {}
                 );
                 console.log("SFMContainer: Got state details:", stateDetails);
-                
+
+                if (stateDetails && stateDetails.length > 0 && stateDetails[0].icon_class) {
+                    this.state.currentStateName = stateDetails[0].name;
+                }
                 if (stateDetails && stateDetails.length > 0 && stateDetails[0].icon_class) {
                     let iconClass = stateDetails[0].icon_class.trim();
                     console.log("SFMContainer: Raw icon_class value:", iconClass);
@@ -146,8 +148,41 @@ export class StateFlowManagerContainer extends Component {
         console.log("SFMContainer: Process Name set to:", this.state.processName);
         console.log("SFMContainer: Current State Name set to:", this.state.currentStateName);
         console.log("SFMContainer: Current State Icon set to:", this.state.currentStateIcon);
+        console.log("SFMContainer: Current State Id set to:", this.state.currentStateId);
+        console.log("SFMContainer: Available Transition IDs:", record.data.available_transition_ids);
         
-        this.state.availableTransitions = record.data.available_transition_ids.records;
+        this.state.availableTransitions = []
+        // get the currentIds from record.data.available_transition_ids
+        const currentIds = record.data.available_transition_ids.currentIds;
+        console.log("SFMContainer: Current IDs:", currentIds);
+        // get the name of the transitions
+        const transitionDetails = await this.orm.call(
+            'state.flow.transition',
+            'read',
+            [currentIds, ['name']],
+            {}
+        );
+        for (const transition of transitionDetails) {
+            this.state.availableTransitions.push([
+                transition.id,
+                transition.name
+            ]);
+        } 
+
+        // itera sobre record.data.available_transition_ids.records; y guarda en availableTransitions
+        // const transitionDetails = await this.orm.call(
+        //     'state.flow.transition',
+        //     'read',
+        //     [record.data.available_transition_ids.currentIds, ['name']],
+        //     {}
+        // );
+        // for (const transition of transitionDetails) {
+        //     this.state.availableTransitions.push([
+        //         transition.id,
+        //         transition.name
+        //     ]);
+        // }
+        console.log("SFMContainer: Available Transitions set to:", this.state.availableTransitions);
 
         this.state.isLoading = false;
     }

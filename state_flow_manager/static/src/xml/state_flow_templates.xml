@@ -31,13 +31,13 @@
                             </div>
                         </div>
 
-                        <div t-if="props.record.data.available_transition_ids.records.length > 0">
+                        <div t-if="state.availableTransitions.length > 0">
                             <div class="d-flex flex-column flex-md-row gap-2 w-100">
-                                <t t-foreach="props.record.data.available_transition_ids.records" t-as="transition" t-key="transition.data.id">
+                                <t t-foreach="state.availableTransitions" t-as="transition" t-key="transition[0]">
                                     <button type="button" 
                                             class="btn btn-sm btn-primary w-100 w-md-auto"
-                                            t-on-click="() => this.executeTransition(transition.resId)">
-                                        <t t-esc="(transition.data.name || transition.data.display_name || 'Unnamed')"/>
+                                            t-on-click="() => this.executeTransition(transition[0])">
+                                        <t t-esc="(transition[1] || 'Unnamed')"/>
                                     </button>
                                 </t>
                             </div>
