@@ -19,6 +19,13 @@
                 </h1>
                 <div class="row">
                     <div class="col-lg-9">
+                        <t t-if="state">
+                            <h2 class="mb-3">State: <t t-out="state.name"/></h2>
+                            <div class="state_description_container border bg-white p-3 shadow-sm">
+                                <h4>State Description</h4>
+                                <div t-raw="state.description"/>
+                            </div>
+                        </t>
                         <div id="mermaid_diagram_container" 
                              class="border bg-white p-3 shadow-sm mb-3" 
                              style="min-height: 450px; overflow: auto;"
@@ -51,12 +58,14 @@
                                     <h5 class="card-title mb-0">Actions</h5>
                                 </div>
                                 <div class="list-group list-group-flush">
-                                    <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addStateModal">
-                                        <i class="fa fa-plus-square-o me-2"></i>Add New State
-                                    </button>
-                                    <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addTransitionModal">
-                                        <i class="fa fa-sitemap me-2"></i>Add New Transition
-                                    </button>
+                                    <t t-if="show_actions">
+                                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addStateModal">
+                                            <i class="fa fa-plus-square-o me-2"></i>Add New State
+                                        </button>
+                                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#addTransitionModal">
+                                            <i class="fa fa-sitemap me-2"></i>Add New Transition
+                                        </button>
+                                    </t>
                                     <a t-attf-href="/odoo/state_flow/{{process.id}}" class="list-group-item list-group-item-action">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Process Form
                                     </a>

@@ -25,7 +25,6 @@
                                 <list>
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
-                                    <field name="description" optional="show"/>
                                     <field name="icon_class" optional="show" placeholder="e.g., fa-check-circle"/>
                                 </list>
                                 <!-- Optional: Form view for states if needed for more complex fields later -->
@@ -61,6 +60,9 @@
                                                     <li>Standard Odoo access rights always apply in addition to these rules</li>
                                                 </ul>
                                             </div>
+                                        </page>
+                                        <page string="Description" name="description">
+                                            <field name="description" placeholder="Detailed description of this state..."/>
                                         </page>
                                     </notebook>
                                 </form>

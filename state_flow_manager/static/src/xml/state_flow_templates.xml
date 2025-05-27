@@ -3,47 +3,50 @@
 
     <!-- Template for the new StateFlowManagerContainer -->
     <t t-name="state_flow_manager.StateFlowManagerContainer" owl="1">
-        <div class="o_state_flow_manager_container card mb-3" t-if="props.record and props.record.data">
-            <div class="card-body p-3">
-                <div t-if="state.isLoading" class="text-center">
-                    <i class="fa fa-spinner fa-spin"/> Loading State Flow...
-                </div>
-                <div t-else="">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="process-info">
-                            <h4 class="mb-0">
-                                <strong class="text-primary">Process:</strong>
-                                <span t-esc="state.processName" class="ms-2 fs-4"/>
-                            </h4>
-                        </div>
-                        <div class="state-info">
-                            <h4 class="mb-0">
-                                <strong class="text-primary">Current State:</strong>
-                                <span class="ms-2 fs-4 badge bg-info px-3 py-2">
-                                    <i t-if="state.currentStateIcon" t-attf-class="me-1 {{state.currentStateIcon}}"></i>
-                                    <t t-esc="state.currentStateName"/>
-                                </span>
-                            </h4>
-                        </div>
+        <div class="o_state_flow_manager_container card w-100 mb-3 mx-0" t-if="props.record and props.record.data">
+            <div class="card-body p-0 container-fluid">
+                <div class="container-fluid px-3 py-2">
+                    <div t-if="state.isLoading" class="text-center">
+                        <i class="fa fa-spinner fa-spin"/> Loading State Flow...
                     </div>
+                    <div t-else="">
+                        <div class="d-flex flex-row align-items-center mb-3 px-0">
+                            <div class="process-info">
+                                <h4 class="mb-0">
+                                    <strong class="text-primary">Process:</strong>
+                                    <span t-esc="state.processName" class="ms-2 fs-4"/>
+                                </h4>
+                            </div>
+                            <div class="state-info ms-auto">
+                                <h4 class="mb-0">
+                                    <strong class="text-primary">State:</strong>
+                                    <span class="ms-2 fs-4">
+                                        <i t-if="state.currentStateIcon" t-att-class="state.currentStateIcon"></i>
+                                        <t t-esc="state.currentStateName"/>
+                                        <a t-if="state.currentStateId" t-att-href="'/state_flow/state_info/' + state.currentStateId" class="ms-2 text-info" title="State Info" target="_blank">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
 
-                    <div t-if="props.record and props.record.data and props.record.data.available_transition_ids and props.record.data.available_transition_ids.records and props.record.data.available_transition_ids.records.length > 0">
-                        <div class="d-flex justify-content-end">
-                            <div class="btn-group flex-wrap" role="group" aria-label="Available Transitions">
+                        <div t-if="props.record.data.available_transition_ids.records.length > 0">
+                            <div class="d-flex flex-column flex-md-row gap-2 w-100">
                                 <t t-foreach="props.record.data.available_transition_ids.records" t-as="transition" t-key="transition.data.id">
                                     <button type="button" 
-                                            class="btn btn-sm btn-primary me-1 mb-1" 
+                                            class="btn btn-sm btn-primary w-100 w-md-auto"
                                             t-on-click="() => this.executeTransition(transition.resId)">
                                         <t t-esc="(transition.data.name || transition.data.display_name || 'Unnamed')"/>
                                     </button>
                                 </t>
                             </div>
                         </div>
-                    </div>
-                    <div t-else="">
-                        <p class="text-muted fst-italic">No transitions available from the current state.</p>
-                    </div>
+                        <div t-else="">
+                            <p class="text-muted fst-italic">No transitions available from the current state.</p>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,4 +69,4 @@
         </div>
     </t>
 
-</templates> 
+</templates>

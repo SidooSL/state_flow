@@ -7,12 +7,42 @@ import json
 _logger = logging.getLogger(__name__)
 
 class StateFlowWebController(http.Controller):
+    @http.route('/state_flow/state_info/<int:state_id>', type='http', auth='user')
+    def state_flow_state_info(self, state_id, **kwargs):
+        """Serves the webpage that displays a single state flow process diagram."""
+        kwargs['show_actions'] = False
+        kwargs['state_id'] = state_id
+        State = request.env['state.flow.state']
+        state = State.sudo().browse(state_id)
+        if not state.exists():
+            # Render a simple error if state not found, or let Odoo handle MissingError
+            return request.make_response("State not found.", status=404)
+        process_id = state.process_id.id if state.process_id else None
+        if not process_id:
+            # If state has no process, redirect to a generic error or list page
+            return request.make_response("State does not belong to any process.", status=404)
+        # Redirect to the process page
+        return self.state_flow_process_page(process_id, **kwargs)
+
+    @http.route('/state_flow/process_info/<int:process_id>', type='http', auth='user')
+    def state_flow_process_info(self, process_id, **kwargs):
+        """Serves the webpage that displays a single state flow process diagram."""
+        kwargs['show_actions'] = False
+
+        return self.state_flow_process_page(process_id, **kwargs)
 
     @http.route('/state_flow/process/<int:process_id>', type='http', auth='user')
     def state_flow_process_page(self, process_id, **kwargs):
         """Serves the webpage that displays a single state flow process diagram."""
         Process = request.env['state.flow.process']
+        # Get show_actions from kwargs or context, default to True
+        show_actions = kwargs.get('show_actions', request.context.get('show_actions', True))
+
+        State = request.env['state.flow.state']
+        state_id = kwargs.get('state_id')
+    
         try:
+            state = state_id and State.sudo().browse(int(state_id)) or False
             # Sudo to read process details for display, access rights checked before this.
             # Actual operations on process/state/transition will re-check rights.
             process = Process.sudo().browse(process_id)
@@ -32,16 +62,17 @@ class StateFlowWebController(http.Controller):
                 _logger.warning(f"User {request.env.uid} has no read access to process {process_id}", exc_info=True)
                 # Fall through to generic error or AccessError handling by Odoo
                 raise AccessError("You do not have permission to view this process.")
-            
+
             if not can_read:
                  raise AccessError("You do not have permission to view this process.")
 
             process_data = Process.sudo().get_process_graph_data(process_id, current_state_id=None)
-            
             return request.render('state_flow_manager.state_flow_web_diagram_page', {
                 'process': process, # process is sudoed for display, actual ops need to re-check
                 'process_data_json': process_data,
                 'page_title': process.name,
+                'show_actions': show_actions,  # Show actions like adding states/transitions
+                'state': state,  # Current state if provided
             })
         except AccessError as e:
             _logger.error(f"Access denied for user {request.env.uid} to process {process_id}: {e}")
@@ -74,7 +105,7 @@ class StateFlowWebController(http.Controller):
         except AccessError:
             request.session['state_flow_error_message'] = "You do not have permission to add states to this process."
             return request.redirect(f'/state_flow/process/{process_id}')
-        
+
         name = post.get('state_name')
         sequence = int(post.get('state_sequence', 10))
         description = post.get('state_description', '')

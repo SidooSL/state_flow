@@ -4,6 +4,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 import { _t } from "@web/core/l10n/translation";
+import { loadJS } from "@web/core/assets";
 
 const { Component, useState, onWillUpdateProps, onMounted, onWillStart } = owl;
 
@@ -23,6 +24,7 @@ export class StateFlowManagerContainer extends Component {
             processName: "",
             currentStateName: "",
             currentStateIcon: "",
+            currentStateId: null, // This will hold the ID of the current state
             isLoading: true,
             availableTransitions: [],
         });
@@ -31,6 +33,15 @@ export class StateFlowManagerContainer extends Component {
         // onWillStart might be too early if record data isn't fully resolved.
         // onMounted is good for initial setup after the DOM element is ready.
         // onWillUpdateProps handles subsequent changes.
+
+        onWillStart(async () => {
+            // Font Awesome is usually already loaded by Odoo, but just in case
+            try {
+                await loadJS("/web/static/lib/fontawesome/css/font-awesome.css");
+            } catch (error) {
+                console.log("Font Awesome might already be loaded:", error);
+            }
+        });
 
         onMounted(async () => {
             console.log("SFMContainer: onMounted triggered.");
@@ -88,29 +99,48 @@ export class StateFlowManagerContainer extends Component {
 
         const currentStateData = record.data.current_state_id;
         this.state.currentStateName = currentStateData && currentStateData.length > 1 ? currentStateData[1] : _t("No State");
+        this.state.currentStateId = currentStateData && currentStateData.length > 0 ? currentStateData[0] : null;
 
         // Get the icon class for the current state if available
         if (currentStateData && currentStateData.length > 0) {
             try {
                 const stateId = currentStateData[0];
+                console.log("SFMContainer: Fetching icon_class for state ID:", stateId);
                 const stateDetails = await this.orm.call(
                     'state.flow.state',
                     'read',
                     [stateId, ['icon_class']],
                     {}
                 );
+                console.log("SFMContainer: Got state details:", stateDetails);
+                
                 if (stateDetails && stateDetails.length > 0 && stateDetails[0].icon_class) {
-                    this.state.currentStateIcon = stateDetails[0].icon_class;
+                    let iconClass = stateDetails[0].icon_class.trim();
+                    console.log("SFMContainer: Raw icon_class value:", iconClass);
+                    
+                    // Ensure the icon class has fa prefix
+                    if (!iconClass.startsWith('fa ') && !iconClass.startsWith('fas ') && 
+                        !iconClass.startsWith('far ') && !iconClass.startsWith('fab ')) {
+                        if (iconClass.startsWith('fa-')) {
+                            iconClass = 'fa ' + iconClass;
+                        } else {
+                            iconClass = 'fa fa-' + iconClass;
+                        }
+                    }
+                    this.state.currentStateIcon = iconClass + ' me-2'; // Add margin for spacing
+                    console.log("SFMContainer: Final icon class:", this.state.currentStateIcon);
                 } else {
                     // Default icon if none is set
-                    this.state.currentStateIcon = "fa fa-circle";
+                    this.state.currentStateIcon = "fa fa-circle me-2";
+                    console.log("SFMContainer: Using default icon (no icon_class found)");
                 }
             } catch (error) {
                 console.error("Error fetching state icon:", error);
-                this.state.currentStateIcon = "fa fa-circle"; // Default fallback
+                this.state.currentStateIcon = "fa fa-circle me-2"; // Default fallback
             }
         } else {
             this.state.currentStateIcon = "";
+            console.log("SFMContainer: No current state, no icon set");
         }
         
         console.log("SFMContainer: Process Name set to:", this.state.processName);

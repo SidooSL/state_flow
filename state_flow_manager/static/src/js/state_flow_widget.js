@@ -70,47 +70,78 @@ export class StateFlowDiagramWidget extends Component {
             if (processData && processData.nodes && processData.edges) {
                 let graphDefinition = "graph LR\n"; // Change to LR (Left-Right) for better visualization
                 
+                // Fetch all state details in one batch for better performance
+                const stateIds = processData.nodes.map(node => node.id);
+                const statesDetails = await this.orm.call(
+                    'state.flow.state',
+                    'read',
+                    [stateIds, ['icon_class', 'name']],
+                    {}
+                );
+                
+                // Create a map for quick lookup
+                const stateDetailsMap = {};
+                statesDetails.forEach(state => {
+                    stateDetailsMap[state.id] = state;
+                });
+                
                 // Define states (nodes)
                 for (const node of processData.nodes) {
                     let nodeLabel = node.name.replace(/"/g, '#quot;'); // Sanitize label
+                    const stateDetail = stateDetailsMap[node.id];
                     
-                    // Fetch icon_class for each state
-                    let iconClass = "";
-                    try {
-                        const stateDetails = await this.orm.call(
-                            'state.flow.state',
-                            'read',
-                            [node.id, ['icon_class']],
-                            {}
-                        );
-                        if (stateDetails && stateDetails.length > 0 && stateDetails[0].icon_class) {
-                            iconClass = stateDetails[0].icon_class;
-                            // Use Unicode characters that Mermaid supports, based on common Font Awesome icons
-                            // This is a simplification - not all FA icons can be represented this way
-                            if (iconClass.includes('check')) {
-                                nodeLabel = "✓ " + nodeLabel;
-                            } else if (iconClass.includes('flag')) {
-                                nodeLabel = "⚑ " + nodeLabel;
-                            } else if (iconClass.includes('clock')) {
-                                nodeLabel = "⏱ " + nodeLabel;
-                            } else if (iconClass.includes('play')) {
-                                nodeLabel = "▶ " + nodeLabel;
-                            } else if (iconClass.includes('stop')) {
-                                nodeLabel = "⏹ " + nodeLabel;
-                            } else if (iconClass.includes('pause')) {
-                                nodeLabel = "⏸ " + nodeLabel;
-                            } else if (iconClass.includes('circle')) {
-                                nodeLabel = "⚫ " + nodeLabel;
-                            } else if (iconClass.includes('star')) {
-                                nodeLabel = "★ " + nodeLabel;
-                            } else if (iconClass.includes('alert') || iconClass.includes('exclamation')) {
-                                nodeLabel = "⚠ " + nodeLabel;
-                            } else {
-                                nodeLabel = "• " + nodeLabel;
-                            }
+                    // Add icon prefix based on icon_class if available
+                    if (stateDetail && stateDetail.icon_class) {
+                        const iconClass = stateDetail.icon_class.trim();
+                        
+                        // Map Font Awesome icons to similar Unicode symbols for Mermaid compatibility
+                        if (iconClass.includes('check')) {
+                            nodeLabel = "✓ " + nodeLabel;
+                        } else if (iconClass.includes('flag')) {
+                            nodeLabel = "⚑ " + nodeLabel;
+                        } else if (iconClass.includes('clock')) {
+                            nodeLabel = "⏱ " + nodeLabel;
+                        } else if (iconClass.includes('play')) {
+                            nodeLabel = "▶ " + nodeLabel;
+                        } else if (iconClass.includes('stop')) {
+                            nodeLabel = "⏹ " + nodeLabel;
+                        } else if (iconClass.includes('pause')) {
+                            nodeLabel = "⏸ " + nodeLabel;
+                        } else if (iconClass.includes('circle')) {
+                            nodeLabel = "⚫ " + nodeLabel;
+                        } else if (iconClass.includes('star')) {
+                            nodeLabel = "★ " + nodeLabel;
+                        } else if (iconClass.includes('alert') || iconClass.includes('exclamation')) {
+                            nodeLabel = "⚠ " + nodeLabel;
+                        } else if (iconClass.includes('times')) {
+                            nodeLabel = "✗ " + nodeLabel;
+                        } else if (iconClass.includes('cog') || iconClass.includes('gear')) {
+                            nodeLabel = "⚙ " + nodeLabel;
+                        } else if (iconClass.includes('arrow-right')) {
+                            nodeLabel = "→ " + nodeLabel;
+                        } else if (iconClass.includes('arrow-left')) {
+                            nodeLabel = "← " + nodeLabel;
+                        } else if (iconClass.includes('arrow-up')) {
+                            nodeLabel = "↑ " + nodeLabel;
+                        } else if (iconClass.includes('arrow-down')) {
+                            nodeLabel = "↓ " + nodeLabel;
+                        } else if (iconClass.includes('lock')) {
+                            nodeLabel = "🔒 " + nodeLabel;
+                        } else if (iconClass.includes('unlock')) {
+                            nodeLabel = "🔓 " + nodeLabel;
+                        } else if (iconClass.includes('user')) {
+                            nodeLabel = "👤 " + nodeLabel;
+                        } else if (iconClass.includes('users')) {
+                            nodeLabel = "👥 " + nodeLabel;
+                        } else if (iconClass.includes('home')) {
+                            nodeLabel = "🏠 " + nodeLabel;
+                        } else if (iconClass.includes('envelope') || iconClass.includes('mail')) {
+                            nodeLabel = "✉ " + nodeLabel;
+                        } else if (iconClass.includes('heart')) {
+                            nodeLabel = "❤ " + nodeLabel;
+                        } else {
+                            nodeLabel = "• " + nodeLabel; // Default bullet
                         }
-                    } catch (error) {
-                        console.error("Error fetching state icon:", error);
                     }
                     
                     if (node.is_current) {

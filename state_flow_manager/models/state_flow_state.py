@@ -5,7 +5,7 @@ class StateFlowState(models.Model):
     _description = 'State Flow State'
 
     name = fields.Char(string='Name', required=True)
-    description = fields.Text(string='Description')
+    description = fields.Html(string='Description')
     icon_class = fields.Char(string="Icon CSS Class", help="CSS class for an icon to represent this state (e.g., 'fa-play-circle').")
     process_id = fields.Many2one('state.flow.process')
     sequence = fields.Integer(string='Sequence')
