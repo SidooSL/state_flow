@@ -63,7 +63,7 @@ class StateFlowMixin(models.AbstractModel):
                                           not transition.allowed_user_ids and \
                                           not transition.user_field_id and \
                                           not transition.user_field_ids and \
-                                          not transition.allowed_users_code
+                                          not transition.sudo().allowed_users_code
                 
                 if no_specific_permissions:
                     can_execute = True
@@ -77,16 +77,16 @@ class StateFlowMixin(models.AbstractModel):
                         can_execute = True
                     
                     # 3. Check user specified in the single user_field_id field
-                    if not can_execute and transition.user_field_id and transition.user_field_id.name:
+                    if not can_execute and transition.user_field_id and transition.user_field_id.sudo().name:
                         try:
-                            field_name = transition.user_field_id.name
+                            field_name = transition.user_field_id.sudo().name
                             user_in_field = getattr(record, field_name)
                             if user_in_field and user_in_field.id == current_user_id:
                                 can_execute = True
                         except AttributeError:
                             _logger.warning(
                                 "AttributeError when checking single user_field_id for transition %s on record %s,%s. Field name: %s",
-                                transition.id, record._name, record.id, transition.user_field_id.name,
+                                transition.id, record._name, record.id, transition.user_field_id.sudo().name,
                                 exc_info=True
                             )
                             pass # Field not found or misconfigured, permission not granted by this rule
@@ -94,9 +94,9 @@ class StateFlowMixin(models.AbstractModel):
                     # 4. Check users specified in the multiple user_field_ids fields (Any Of)
                     if not can_execute and transition.user_field_ids:
                         for user_field_record in transition.user_field_ids:
-                            if user_field_record and user_field_record.name:
+                            if user_field_record and user_field_record.sudo().name:
                                 try:
-                                    field_name = user_field_record.name
+                                    field_name = user_field_record.sudo().name
                                     user_in_field = getattr(record, field_name)
                                     if user_in_field and user_in_field.id == current_user_id:
                                         can_execute = True
@@ -104,13 +104,13 @@ class StateFlowMixin(models.AbstractModel):
                                 except AttributeError:
                                     _logger.warning(
                                         "AttributeError when checking user_field_ids for transition %s on record %s,%s. Field name: %s",
-                                        transition.id, record._name, record.id, user_field_record.name,
+                                        transition.id, record._name, record.id, user_field_record.sudo().name,
                                         exc_info=True
                                     )
                                     continue 
                     
                     # 5. Check Python code for allowed users
-                    if not can_execute and transition.allowed_users_code:
+                    if not can_execute and transition.sudo().allowed_users_code:
                         eval_context = {
                             'env': self.env,
                             'record': record,
@@ -119,7 +119,7 @@ class StateFlowMixin(models.AbstractModel):
                             # Potentially add other safe utilities like datetime, dateutil if needed
                         }
                         try:
-                            result = safe_eval(transition.allowed_users_code, eval_context)
+                            result = safe_eval(transition.sudo().allowed_users_code, eval_context)
                             if isinstance(result, models.BaseModel) and result._name == 'res.users': # Check if it's a res.users recordset
                                 if current_user_id in result.ids:
                                     can_execute = True
@@ -177,7 +177,7 @@ class StateFlowMixin(models.AbstractModel):
                                       not transition.allowed_user_ids and \
                                       not transition.user_field_id and \
                                       not transition.user_field_ids and \
-                                      not transition.allowed_users_code
+                                      not transition.sudo().allowed_users_code
             if no_specific_permissions:
                 can_execute_specific = True
             else:
@@ -188,8 +188,8 @@ class StateFlowMixin(models.AbstractModel):
                     can_execute_specific = True
                 
                 # Check user_field_id in execute_transition
-                if not can_execute_specific and transition.user_field_id and transition.user_field_id.name:
-                    field_name_on_self = transition.user_field_id.name
+                if not can_execute_specific and transition.user_field_id and transition.user_field_id.sudo().name:
+                    field_name_on_self = transition.user_field_id.sudo().name
                     if hasattr(self, field_name_on_self):
                         user_in_field_on_self = getattr(self, field_name_on_self)
                         if user_in_field_on_self and user_in_field_on_self.id == current_user_id:
