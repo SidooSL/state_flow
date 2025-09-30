@@ -7,7 +7,9 @@
             <hr/>
             <div id="project_communication">
                 <h3>Communication history</h3>
-                <t t-call="portal.message_thread"/>
+                <t t-call="portal.message_thread">
+                    <t t-set="token" t-value="project.access_token"/>
+                </t>
             </div>
         </xpath>
     </template>
