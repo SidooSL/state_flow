@@ -16,6 +16,7 @@ It adds state and transition management to the project form.
     ],
     'data': [
         'views/project_project_views.xml',
+        'views/project_portal_templates.xml',
     ],
     'installable': True,
     'application': False,
