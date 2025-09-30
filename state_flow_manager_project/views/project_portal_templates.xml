@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add chatter to project portal view -->
+    <template id="portal_my_project_chatter" inherit_id="project.portal_my_project">
+        <xpath expr="//t[@t-call='project.portal_tasks_list']" position="after">
+            <!-- chatter -->
+            <hr/>
+            <div id="project_communication">
+                <h3>Communication history</h3>
+                <t t-call="portal.message_thread"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>
