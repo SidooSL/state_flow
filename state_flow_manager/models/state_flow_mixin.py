@@ -226,9 +226,9 @@ class StateFlowMixin(models.AbstractModel):
         server_action = transition.server_action_id
         if server_action:
             # It's important to run the action with the context of the current record
-            # server_action.with_context(active_model=self._name, active_id=self.id, active_ids=self.ids).run()
+            server_action.with_context(active_model=self._name, active_id=self.id, active_ids=self.ids).run()
             # The standard run() should be sufficient if the action is configured correctly to use context.
-            server_action.run()
+            # server_action.run()
 
         # Change current state
         self.current_state_id = transition.to_state_id
