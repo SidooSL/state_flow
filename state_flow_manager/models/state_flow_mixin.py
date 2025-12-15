@@ -54,7 +54,7 @@ class StateFlowMixin(models.AbstractModel):
                 continue
 
             user_groups = self.env.user.groups_id
-            current_user_id = self.env.user.id
+            current_user_id = self.env.context.get('uid') or self.env.user.id
 
             for transition in possible_transitions:
                 can_execute = False
