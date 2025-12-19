@@ -201,6 +201,12 @@ export class StateFlowManagerContainer extends Component {
 
         try {
             this.state.isLoading = true;
+            
+            // Save any pending changes before executing the transition
+            if (record.isDirty) {
+                await record.save();
+            }
+            
             // The selected_transition_id field is removed from the model.
             // We now pass the transitionId directly to the orm.call.
             await this.orm.call(
