@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_state_flow_tracking_user,state.flow.tracking.user,model_state_flow_tracking,state_flow_manager.group_state_flow_user,1,0,0,0
+access_state_flow_tracking_manager,state.flow.tracking.manager,model_state_flow_tracking,state_flow_manager.group_state_flow_manager,1,1,1,1
