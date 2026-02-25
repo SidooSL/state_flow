@@ -7,7 +7,7 @@
         This module adds tracking functionality to State Flow processes,
         recording the time spent in each state.
     """,
-    'author': 'Sensedi',
+    'author': 'Sidoo',
     'website': 'https://sidoo.es',
     'license': 'AGPL-3',
     'depends': ['state_flow_manager'],
