@@ -1,0 +1,940 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* state_flow_manager
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-24 13:18+0000\n"
+"PO-Revision-Date: 2026-02-24 13:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid ""
+"# Python code for dynamic write access control\n"
+"# Context: 'record', 'user', 'env'\n"
+"# Must return True/False\n"
+"# Example: record.project_manager_id == user"
+msgstr ""
+"# Código Python para control dinámico de acceso de escritura\n"
+"# Contexto: 'record', 'user', 'env'\n"
+"# Debe retornar True/False\n"
+"# Ejemplo: record.project_manager_id == user"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.portal_layout_inherit_state_flow
+msgid "- Status"
+msgstr "- Estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<i class=\"fa fa-arrow-left me-2\"/>Back to Process Form"
+msgstr "<i class=\"fa fa-arrow-left me-2\"/>Volver al formulario del proceso"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<i class=\"fa fa-plus-square-o me-2\"/>Add New State"
+msgstr "<i class=\"fa fa-plus-square-o me-2\"/>Agregar nuevo estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<i class=\"fa fa-sitemap me-2\"/>Add New Transition"
+msgstr "<i class=\"fa fa-sitemap me-2\"/>Agregar nueva transición"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<i class=\"fa fa-spinner fa-spin fa-3x text-muted\"/> Loading Diagram..."
+msgstr "<i class=\"fa fa-spinner fa-spin fa-3x text-muted\"/> Cargando diagrama..."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<option value=\"\">Select destination state...</option>"
+msgstr "<option value=\"\">Selecciona el estado de destino...</option>"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<option value=\"\">Select origin state...</option>"
+msgstr "<option value=\"\">Selecciona el estado de origen...</option>"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "<strong>Access Control Logic:</strong>"
+msgstr "<strong>Lógica de control de acceso:</strong>"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "<strong>Model:</strong>"
+msgstr "<strong>Modelo:</strong>"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Access Rights"
+msgstr "Permisos de acceso"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Actions"
+msgstr "Acciones"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Add New State"
+msgstr "Agregar nuevo estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Add New Transition"
+msgstr "Agregar nueva transición"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Add State"
+msgstr "Agregar estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Add Transition"
+msgstr "Agregar transición"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Advanced Access Control"
+msgstr "Control de acceso avanzado"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__allow_change_process
+msgid "Allow Change Process"
+msgstr "Permitir cambiar proceso"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__allowed_group_ids
+msgid "Allowed Groups"
+msgstr "Grupos permitidos"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__allowed_user_ids
+msgid "Allowed Specific Users"
+msgstr "Usuarios específicos permitidos"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__allowed_write_group_ids
+msgid "Allowed Write Groups"
+msgstr "Grupos con permiso de escritura"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__allowed_write_user_ids
+msgid "Allowed Write Users"
+msgstr "Usuarios con permiso de escritura"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_manager
+msgid "Allows managing state flow processes, states, and transitions."
+msgstr "Permite gestionar procesos, estados y transiciones del flujo de estados."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid "An unexpected error occurred: %s"
+msgstr "Ocurrió un error inesperado: %s"
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_auditor
+msgid "Auditor (State Flow)"
+msgstr "Auditor (Flujo de estados)"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_mixin__available_process_ids
+msgid "Available Process"
+msgstr "Proceso disponible"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_mixin__available_transition_ids
+msgid "Available Transition"
+msgstr "Transición disponible"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_mixin__available_transitions_ui_data
+msgid "Available Transitions UI Data"
+msgstr "Datos UI de transiciones disponibles"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__icon_class
+msgid "CSS class for an icon to represent this state (e.g., 'fa-play-circle')."
+msgstr "Clase CSS para un ícono que represente este estado (p. ej., 'fa-play-circle')."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_purchasing_admin
+msgid "Coordinates supplier certification process, requests reviews."
+msgstr "Coordina el proceso de certificación de proveedores y solicita revisiones."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__create_uid
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__create_uid
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__create_date
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__create_date
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_mixin__current_state_id
+msgid "Current State"
+msgstr "Estado actual"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.portal_layout_inherit_state_flow
+msgid "Current State:"
+msgstr "Estado actual:"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_user
+msgid "Default user access to state flow functionalities."
+msgstr "Acceso predeterminado del usuario a las funcionalidades del flujo de estados."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_transition__allowed_users_code
+msgid ""
+"Define allowed users via Python code.\n"
+"                The code is executed with 'record' (the current business object),\n"
+"                'env' (Odoo environment), and 'user' (current res.users object) in its context.\n"
+"                It MUST return a res.users recordset or a list of user IDs.\n"
+"\n"
+"                Examples:\n"
+"                - record.user_id\n"
+"                - env['res.users'].browse([1, 2, 3])\n"
+"                - [u.id for u in record.some_one2many_field.mapped('user_field_on_related_model')]\n"
+"                - record.company_id.user_ids  # (If applicable)\n"
+"\n"
+"                If the code returns a res.users recordset, the current user must be in it.\n"
+"                If it returns a list of IDs, the current user's ID must be in the list.\n"
+"\n"
+"                WARNING: Executing arbitrary Python code has security implications.\n"
+"                This field is only visible/editable by System Administrators.\n"
+"                Ensure the code is safe, tested, and does not perform unintended operations.\n"
+"                Invalid code or code that does not return the expected type will result in permission denial.\n"
+"             "
+msgstr ""
+"Define usuarios permitidos por código Python.\n"
+"                El código se ejecuta con 'record' (el objeto comercial actual),\n"
+"                'env' (entorno de Odoo), y 'user' (objeto res.usuarios actual) en su contexto.\n"
+"                DEBE retornar un conjunto de registros de res.users o una lista de IDs de usuario.\n"
+"\n"
+"                Ejemplos:\n"
+"                - record.user_id\n"
+"                - env['res.users'].browse([1, 2, 3])\n"
+"                - [u.id for u in record.some_one2many_field.mapped('user_field_on_related_model')]\n"
+"                - record.company_id.user_ids  # (Si aplica)\n"
+"\n"
+"                Si el código retorna un conjunto de registros de res.users, el usuario actual debe estar en él.\n"
+"                Si retorna una lista de IDs, el ID del usuario actual debe estar en la lista.\n"
+"\n"
+"                ADVERTENCIA: Ejecutar código Python arbitrario tiene implicaciones de seguridad.\n"
+"                Este campo solo es visible/editable por Administradores del Sistema.\n"
+"                Asegúrate de que el código sea seguro, probado y no realice operaciones no deseadas.\n"
+"                El código inválido o que no retorna el tipo esperado resultará en denegación de permisos.\n"
+"             "
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__description
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__description
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__description
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Description"
+msgstr "Descripción"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Description (optional)"
+msgstr "Descripción (opcional)"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Detailed description of the process..."
+msgstr "Descripción detallada del proceso..."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Detailed description of this state..."
+msgstr "Descripción detallada de este estado.."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__display_name
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__display_name
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__domain
+msgid "Domain"
+msgstr "Dominio"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__write_access_code
+msgid ""
+"Dynamic write access control via Python code.\n"
+"                Executed if no groups/users are specified above or if they don't grant access.\n"
+"                Context: 'record' (current business object), 'user' (current res.users object), 'env'.\n"
+"                Code MUST return True if write is allowed, False otherwise.\n"
+"\n"
+"                Example:\n"
+"                - record.project_manager_id == user\n"
+"                - user.has_group(\"project.group_project_manager\") and record.amount_total < 1000\n"
+"\n"
+"                WARNING: Security risk! Only for System Administrators.\n"
+"                Ensure code is safe and returns a clear boolean.\n"
+"             "
+msgstr ""
+"Control dinámico de acceso de escritura por código Python.\n"
+"                Se ejecuta si no se especifican grupos/usuarios arriba o si no otorgan acceso.\n"
+"                Contexto: 'record' (objeto comercial actual), 'user' (objeto res.users actual), 'env'.\n"
+"                El código DEBE retornar True si la escritura está permitida, False en caso contrario.\n"
+"\n"
+"                Ejemplo:\n"
+"                - record.project_manager_id == user\n"
+"                - user.has_group(\"project.group_project_manager\") and record.amount_total < 1000\n"
+"\n"
+"                ADVERTENCIA: ¡Riesgo de seguridad! Solo para Administradores del Sistema.\n"
+"                Asegúrate de que el código sea seguro y retorne un booleano claro.\n"
+"             "
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "Error evaluating post-condition domain for transition %s: %s"
+msgstr "Error al evaluar el dominio de postcondición para la transición %s: %s"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "Error evaluating pre-condition domain for transition %s: %s"
+msgstr "Error al evaluar el dominio de precondición para la transición %s: %s"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "Error: %s"
+msgstr "Error: %s"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_financial_evaluator
+msgid "Evaluates financial solvency and risks for suppliers."
+msgstr "Evalúa la solvencia financiera y riesgos de los proveedores."
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_technical_evaluator
+msgid "Evaluates technical competencies, quality standards for suppliers."
+msgstr "Evalúa competencias técnicas y estándares de calidad de proveedores."
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_financial_evaluator
+msgid "Financial Evaluator (State Flow)"
+msgstr "Evaluador Financiero (Flujo de estados)"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__from_state_id
+msgid "From"
+msgstr "Desde"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "From State"
+msgstr "Estado de origen"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Groups and Users"
+msgstr "Grupos y usuarios"
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_homologation_committee
+msgid "Homologation Committee (State Flow)"
+msgstr "Comité de Homologación (Flujo de estados)"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__id
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__id
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__id
+msgid "ID"
+msgstr "ID"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__icon_class
+msgid "Icon CSS Class"
+msgstr "Clase CSS del ícono"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "If groups or users are specified above, they will be checked first"
+msgstr "Si se especifican grupos o usuarios arriba, se verificarán primero"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__allowed_write_user_ids
+msgid ""
+"If set, only these specific users can edit records in this state (in "
+"addition to standard access rights)."
+msgstr ""
+"Si se establece, solo estos usuarios específicos pueden editar registros en este estado (además "
+"de los derechos de acceso estándar)."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__allowed_write_group_ids
+msgid ""
+"If set, only users in these groups can edit records in this state (in "
+"addition to standard access rights)."
+msgstr ""
+"Si se establece, solo los usuarios en estos grupos pueden editar registros en este estado (además "
+"de los derechos de acceso estándar)."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__in_transition_ids
+msgid "Incoming Transitions"
+msgstr "Transiciones entrantes"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid "Invalid transition format."
+msgstr "Formato de transición inválido."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid "Invalid transition selected."
+msgstr "Transición seleccionada inválida."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__write_uid
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__write_uid
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__write_date
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__write_date
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_legal_evaluator
+msgid "Legal Evaluator (State Flow)"
+msgstr "Evaluador Legal (Flujo de estados)"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "Loading State Flow..."
+msgstr "Cargando Flujo de estados..."
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "Loading diagram..."
+msgstr "Cargando diagrama..."
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_homologation_committee
+msgid "Makes the final decision in the supplier certification process."
+msgstr "Toma la decisión final en el proceso de certificación de proveedores."
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_manager
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__model_id
+msgid "Model"
+msgstr "Modelo"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__model_name_for_domain
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__model_name_for_domain
+msgid "Model Name for Domain"
+msgstr "Nombre del modelo para dominio"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__name
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__name
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "New state name"
+msgstr "Nombre del nuevo estado"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "No Process Selected"
+msgstr "Ningún proceso seleccionado"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "No transition ID provided to execute."
+msgstr "No se proporcionó ID de transición para ejecutar."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid "No transition was selected."
+msgstr "No se seleccionó ninguna transición."
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "No transitions available from the current state."
+msgstr "No hay transiciones disponibles desde el estado actual."
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "No valid transition ID provided."
+msgstr "No se proporcionó un ID de transición válido."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__out_transition_ids
+msgid "Outgoing Transitions"
+msgstr "Transiciones salientes"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_auditor
+msgid "Performs audits on suppliers when required."
+msgstr "Realiza auditorías a proveedores cuando sea necesario."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__post_transition_domain
+msgid "Post-condition Domain"
+msgstr "Dominio de postcondición"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__post_transition_fail_message
+msgid "Post-condition Fail Message"
+msgstr "Mensaje de fallo de postcondición"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Post-conditions"
+msgstr "Postcondiciones"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__pre_condition_domain
+msgid "Pre-condition Domain"
+msgstr "Dominio de precondición"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__domain_fail_message
+msgid "Pre-condition Fail Message"
+msgstr "Mensaje de fallo de precondición"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Pre-conditions"
+msgstr "Precondiciones"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_mixin__process_id
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__process_id
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__process_id
+msgid "Process"
+msgstr "Proceso"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Process Description"
+msgstr "Descripción del proceso"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Process Details"
+msgstr "Detalles del proceso"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__process_type
+msgid "Process Type"
+msgstr "Tipo de proceso"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "Process:"
+msgstr "Proceso:"
+
+#. module: state_flow_manager
+#: model:ir.ui.menu,name:state_flow_manager.menu_state_flow_processes
+msgid "Processes"
+msgstr "Procesos"
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_purchasing_admin
+msgid "Purchasing Admin (State Flow)"
+msgstr "Administrador de Compras (Flujo de estados)"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__allowed_users_code
+msgid "Python Code for Allowed Users"
+msgstr "Código Python para usuarios permitidos"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__write_access_code
+msgid "Python Code for Write Access"
+msgstr "Código Python para acceso de escritura"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid ""
+"Python code is executed only if no groups/users are specified or they don't "
+"grant access"
+msgstr ""
+"El código Python se ejecuta solo si no se especifican grupos/usuarios o no "
+"otorgan acceso"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "Record information is missing."
+msgstr "Falta información del registro."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_transition__user_field_id
+msgid ""
+"Select a single Many2one field on the record (e.g., Project Manager) whose "
+"user should be allowed. Checked if specific users are not set."
+msgstr ""
+"Selecciona un campo Many2one del registro (p. ej., Gerente de proyecto) cuyo "
+"usuario debe estar permitido. Se verifica si no se establecen usuarios específicos."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Select fields that can edit records in this state"
+msgstr "Selecciona campos que pueden editar registros en este estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Select groups that can edit records in this state"
+msgstr "Selecciona grupos que pueden editar registros en este estado"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,help:state_flow_manager.field_state_flow_transition__user_field_ids
+msgid ""
+"Select one or more Many2one fields on the record. If the current user "
+"matches the user in ANY of these fields, they will be allowed. Checked after"
+" specific users and single user field."
+msgstr ""
+"Selecciona uno o más campos Many2one del registro. Si el usuario actual "
+"coincide con el usuario en CUALQUIERA de estos campos, será permitido. Se verifica después"
+" de usuarios específicos y campo de usuario único."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Select specific users that can edit records in this state"
+msgstr "Selecciona usuarios específicos que pueden editar registros en este estado"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__sequence
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__sequence
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__server_action_id
+msgid "Server Action"
+msgstr "Acción del servidor"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Standard Odoo access rights always apply in addition to these rules"
+msgstr "Los derechos de acceso estándar de Odoo siempre se aplican además de estas reglas"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "State Description"
+msgstr "Descripción del estado"
+
+#. module: state_flow_manager
+#: model:ir.module.category,name:state_flow_manager.module_state_flow_manager_category
+msgid "State Flow Management"
+msgstr "Gestión de flujo de estados"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "State Flow Manager: Record data not available."
+msgstr "Gestor de Flujo de estados: Datos de registro no disponibles."
+
+#. module: state_flow_manager
+#: model:ir.model,name:state_flow_manager.model_state_flow_mixin
+msgid "State Flow Mixin"
+msgstr "Mezcla de flujo de estados"
+
+#. module: state_flow_manager
+#: model:ir.model,name:state_flow_manager.model_state_flow_process
+msgid "State Flow Process"
+msgstr "Proceso de flujo de estados"
+
+#. module: state_flow_manager
+#: model:ir.ui.menu,name:state_flow_manager.menu_state_flow_process_manager
+msgid "State Flow Process Manager"
+msgstr "Gestor de procesos de flujo de estados"
+
+#. module: state_flow_manager
+#: model:ir.actions.act_window,name:state_flow_manager.action_state_flow_process
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_tree
+msgid "State Flow Processes"
+msgstr "Procesos de flujo de estados"
+
+#. module: state_flow_manager
+#: model:ir.model,name:state_flow_manager.model_state_flow_state
+msgid "State Flow State"
+msgstr "Estado de flujo de estados"
+
+#. module: state_flow_manager
+#: model:ir.model,name:state_flow_manager.model_state_flow_transition
+msgid "State Flow Transition"
+msgstr "Transición de flujo de estados"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_transition_tree_no_create
+msgid "State Flow Transitions"
+msgstr "Transiciones de flujo de estados"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+msgid "State Info"
+msgstr "Información del estado"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "State Name"
+msgstr "Nombre del estado"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/xml/state_flow_templates.xml:0
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "State:"
+msgstr "Estado:"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__state_ids
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "States"
+msgstr "Estados"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__model_id
+msgid "Target Model"
+msgstr "Modelo objetivo"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__model_name
+msgid "Target Model Technical Name"
+msgstr "Nombre técnico del modelo objetivo"
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_technical_evaluator
+msgid "Technical/Quality Evaluator (State Flow)"
+msgstr "Evaluador Técnico/Calidad (Flujo de estados)"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid ""
+"The record does not meet the post-conditions after transition '%s'. State "
+"has been reverted."
+msgstr ""
+"El registro no cumple las postcondiciones después de la transición '%s'. El estado "
+"ha sido revertido."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "The record does not meet the pre-conditions for transition '%s'."
+msgstr "El registro no cumple las precondiciones para la transición '%s'."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid ""
+"The record you are trying to access does not exist, is not a state flow "
+"enabled model, or you do not have access."
+msgstr ""
+"El registro que intentas acceder no existe, no es un modelo con flujo de estados "
+"habilitado, o no tienes acceso."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__to_state_id
+msgid "To"
+msgstr "Hacia"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "To State"
+msgstr "Estado de destino"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "Transition '%s' is not currently available for this record."
+msgstr "La transición '%s' no está disponible actualmente para este registro."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "Transition '%s' is not valid from the current state '%s'."
+msgstr "La transición '%s' no es válida desde el estado actual '%s'."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Transition Name"
+msgstr "Nombre de la transición"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "Transition executed successfully."
+msgstr "Transición ejecutada exitosamente."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
+msgid "Transition name"
+msgstr "Nombre de la transición"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "Transition with ID %s not found or you do not have access."
+msgstr "Transición con ID %s no encontrada o no tienes acceso."
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__transition_ids
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Transitions"
+msgstr "Transiciones"
+
+#. module: state_flow_manager
+#. odoo-javascript
+#: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
+msgid "Unknown error occurred during transition."
+msgstr "Ocurrió un error desconocido durante la transición."
+
+#. module: state_flow_manager
+#: model:res.groups,name:state_flow_manager.group_state_flow_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "User Field"
+msgstr "Campo de usuario"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__user_field_id
+msgid "User Field from Record (Single)"
+msgstr "Campo de usuario del registro (Único)"
+
+#. module: state_flow_manager
+#: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__user_field_ids
+msgid "User Fields from Record (Any Of)"
+msgstr "Campos de usuario del registro (Cualquiera de)"
+
+#. module: state_flow_manager
+#: model:ir.module.category,description:state_flow_manager.module_state_flow_manager_category
+msgid "User access levels for State Flow Management module"
+msgstr "Niveles de acceso de usuario para el módulo de Gestión de flujo de estados"
+
+#. module: state_flow_manager
+#: model:res.groups,comment:state_flow_manager.group_state_flow_legal_evaluator
+msgid "Verifies legal, labor, and fiscal aspects of suppliers."
+msgstr "Verifica aspectos legales, laborales y fiscales de los proveedores."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "View Web Diagram"
+msgstr "Ver diagrama web"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "What happens during this transition?"
+msgstr "¿Qué sucede durante esta transición?"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "Write Access Control"
+msgstr "Control de acceso de escritura"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/controllers/portal.py:0
+msgid ""
+"You are not allowed to execute this transition or it is not available in the"
+" current state."
+msgstr ""
+"No estás autorizado para ejecutar esta transición o no está disponible en el"
+" estado actual."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid ""
+"You are not allowed to modify this record in its current state "
+"('%(state_name)s') based on the state flow configuration."
+msgstr ""
+"No estás autorizado para modificar este registro en su estado actual "
+"('%(state_name)s') según la configuración del flujo de estados."
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_mixin.py:0
+msgid "You do not have the required permissions to execute transition '%s'."
+msgstr "No tienes los permisos requeridos para ejecutar la transición '%s'."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "e.g. [('is_company', '=', True)]"
+msgstr "p. ej. [('is_company', '=', True)]"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "e.g., The record must be active."
+msgstr "p. ej., El registro debe estar activo."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "e.g., The record must now be in 'Validated' stage."
+msgstr "p. ej., El registro debe estar ahora en etapa 'Validado'."
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "e.g., fa-check-circle"
+msgstr "p. ej., fa-check-circle"
+
+#. module: state_flow_manager
+#: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
+msgid "e.g., fa-check-circle, fa-play, fa-stop"
+msgstr "p. ej., fa-check-circle, fa-play, fa-stop"
