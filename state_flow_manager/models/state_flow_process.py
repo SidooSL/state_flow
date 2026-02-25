@@ -86,7 +86,7 @@ class StateFlowProcess(models.Model):
         self.ensure_one()
         default = dict(default or {})
 
-        default["name"] = self.env._("%s (copy)", self.name)
+        default['name'] = _("%s (copy)") % self.name
 
         default['state_ids'] = False
         default['transition_ids'] = False
