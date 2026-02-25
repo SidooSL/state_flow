@@ -7,7 +7,7 @@ class StateFlowState(models.Model):
     name = fields.Char(string='Name', required=True)
     description = fields.Html(string='Description')
     icon_class = fields.Char(string="Icon CSS Class", help="CSS class for an icon to represent this state (e.g., 'fa-play-circle').")
-    process_id = fields.Many2one('state.flow.process')
+    process_id = fields.Many2one('state.flow.process', ondelete='cascade')
     sequence = fields.Integer(string='Sequence')
     out_transition_ids = fields.One2many('state.flow.transition', 'from_state_id', string='Outgoing Transitions')
     in_transition_ids = fields.One2many('state.flow.transition', 'to_state_id', string='Incoming Transitions')

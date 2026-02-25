@@ -79,3 +79,94 @@ class StateFlowProcess(models.Model):
         }
 
 
+    def copy(self, default=None):
+        # Manejar múltiples registros
+        if len(self) > 1:
+            result = self.env['state.flow.process']
+            for record in self:
+                result |= record.copy(default=default)
+            return result
+        
+        # Logic for a single record
+        self.ensure_one()
+        default = dict(default or {})
+
+        # If no name was provided, generate a "(copy)" or "(copy X)" suffix
+        if not default.get('name'):
+            base_name = self.name or ''
+            
+            # Look for existing copies of this process to determine if numbering is needed
+            existing = self.env['state.flow.process'].search([
+                ('name', 'ilike', f'{base_name} (copy')
+            ])
+            
+            if not existing:
+                default['name'] = f"{base_name} (copy)"
+            else:
+
+                counter = 1
+                while True:
+                    candidate_name = f"{base_name} (copy {counter})"
+                    if not self.env['state.flow.process'].search([('name', '=', candidate_name)]):
+                        default['name'] = candidate_name
+                        break
+                    counter += 1
+
+        # Prevent ORM from auto-copying One2many children
+        # We will manually copy states and transitions
+
+        default['state_ids'] = False
+        default['transition_ids'] = False
+
+        # Create the new process without children
+        new_process = super().copy(default=default)
+
+        # Map old state IDs to new state IDs
+        state_mapping = {}
+        for old_state in self.state_ids:
+            # Manually copy each state
+            new_state_vals = {
+                'name': old_state.name,
+                'description': old_state.description,
+                'icon_class': old_state.icon_class,
+                'process_id': new_process.id,       #Assign to the new process
+                'sequence': old_state.sequence,
+                'allow_change_process': old_state.allow_change_process,
+            }
+            new_state = self.env['state.flow.state'].create(new_state_vals)
+            state_mapping[old_state.id] = new_state.id
+
+        # Copy transitions and remap from/to states using state_mapping
+        for old_transition in self.transition_ids:
+            new_from_state_id = state_mapping.get(old_transition.from_state_id.id)
+            new_to_state_id = state_mapping.get(old_transition.to_state_id.id)
+
+            # Only create the transition if both endpoints were successfully mapped
+            if new_from_state_id and new_to_state_id:
+                new_transition_vals = {
+                    'sequence': old_transition.sequence,
+                    'name': old_transition.name,
+                    'description': old_transition.description,
+                    'process_id': new_process.id,       # Assign to new process
+                    'from_state_id': new_from_state_id,
+                    'to_state_id': new_to_state_id,
+                    'server_action_id': old_transition.server_action_id.id if old_transition.server_action_id else False,
+                    'pre_condition_domain': old_transition.pre_condition_domain,
+                    'domain_fail_message': old_transition.domain_fail_message,
+                    
+                    # M2M fields – copy by replacing the entire set
+                    'allowed_group_ids': [(6, 0, old_transition.allowed_group_ids.ids)],
+                    'allowed_user_ids': [(6, 0, old_transition.allowed_user_ids.ids)],
+                    
+                    # Many2one and Many2many user field configurations
+                    'user_field_id': old_transition.user_field_id.id if old_transition.user_field_id else False,
+                    'user_field_ids': [(6, 0, old_transition.user_field_ids.ids)],
+                    
+                    # Code / domain fields
+                    'allowed_users_code': old_transition.allowed_users_code,
+                    'post_transition_domain': old_transition.post_transition_domain,
+                    'post_transition_fail_message': old_transition.post_transition_fail_message,
+                }
+                self.env['state.flow.transition'].create(new_transition_vals)
+
+        return new_process

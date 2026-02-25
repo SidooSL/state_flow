@@ -7,7 +7,7 @@ class StateFlowTransition(models.Model):
     sequence = fields.Integer()
     name = fields.Char(required=True)
     description = fields.Text()
-    process_id = fields.Many2one('state.flow.process', required=True)
+    process_id = fields.Many2one('state.flow.process', required=True, ondelete='cascade')
     model_name_for_domain = fields.Char(related='process_id.model_id.model', store=True, string="Model Name for Domain")
     from_state_id = fields.Many2one('state.flow.state', string='From', required=True,
                                     domain="[('process_id', '=', process_id)]")
