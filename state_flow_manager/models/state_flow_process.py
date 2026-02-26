@@ -80,23 +80,12 @@ class StateFlowProcess(models.Model):
 
 
     def copy(self, default=None):
-        if len(self) > 1:
-            return self.env['state.flow.process'].concat(*[r.copy(default) for r in self])
-        
         self.ensure_one()
-        default = dict(default or {})
-
-        default['name'] = _("%s (copy)") % self.name
-
-        default['state_ids'] = False
-        default['transition_ids'] = False
-        
-        new = super().copy(default)
-        state_map = {s.id: s.copy({'process_id': new.id}).id for s in self.state_ids}
-        [t.copy({
-            'process_id': new.id,
-            'from_state_id': state_map[t.from_state_id.id],
-            'to_state_id': state_map[t.to_state_id.id],
-        }) for t in self.transition_ids]
-        return new
+        default = dict(default or {}, name=_("%s (copy)") % self.name)        
+        state_ids = self.state_ids.copy()
+        transition_ids = self.transition_ids.copy()
+        record_copy = super().copy(default)
+        record_copy.state_ids = state_ids
+        record_copy.transition_ids = transition_ids
+        return record_copy
     
