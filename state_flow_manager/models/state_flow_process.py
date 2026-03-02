@@ -18,8 +18,8 @@ class StateFlowProcess(models.Model):
 
     name = fields.Char(required=True)
     description = fields.Html(string='Description')
-    state_ids = fields.One2many('state.flow.state', 'process_id', string='States')
-    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions')
+    state_ids = fields.One2many('state.flow.state', 'process_id', string='States', copy=True)
+    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions', copy=True)
     model_id = fields.Many2one(
         'ir.model', 
         string='Model', 
@@ -82,10 +82,5 @@ class StateFlowProcess(models.Model):
     def copy(self, default=None):
         self.ensure_one()
         default = dict(default or {}, name=_("%s (copy)") % self.name)        
-        state_ids = self.state_ids.copy()
-        transition_ids = self.transition_ids.copy()
-        record_copy = super().copy(default)
-        record_copy.state_ids = state_ids
-        record_copy.transition_ids = transition_ids
-        return record_copy
+        return super().copy(default)
     
