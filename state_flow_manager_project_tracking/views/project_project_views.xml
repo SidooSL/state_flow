@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_inherit_state_flow_tracking" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.state.flow.tracking</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Tracking" name="state_flow_tracking">
+                    <field name="tracking_ids">
+                        <list>
+                            <field name="state_id"/>
+                            <field name="start"/>
+                            <field name="end"/>
+                            <field name="duration_display"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo> 
