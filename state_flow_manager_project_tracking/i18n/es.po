@@ -1,0 +1,21 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* state_flow_manager_project_tracking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-04 08:10+0000\n"
+"PO-Revision-Date: 2026-03-04 08:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: state_flow_manager_project_tracking
+#: model_terms:ir.ui.view,arch_db:state_flow_manager_project_tracking.view_project_form_inherit_state_flow_tracking
+msgid "Tracking"
+msgstr "Seguimiento"

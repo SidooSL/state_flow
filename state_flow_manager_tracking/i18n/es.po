@@ -1,0 +1,134 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* state_flow_manager_tracking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-04 08:05+0000\n"
+"PO-Revision-Date: 2026-03-04 08:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: state_flow_manager_tracking
+#. odoo-python
+#: code:addons/state_flow_manager_tracking/models/state_flow_tracking.py:0
+msgid "%d days"
+msgstr "%d días"
+
+#. module: state_flow_manager_tracking
+#. odoo-python
+#: code:addons/state_flow_manager_tracking/models/state_flow_tracking.py:0
+msgid "%d hours"
+msgstr "%d horas"
+
+#. module: state_flow_manager_tracking
+#. odoo-python
+#: code:addons/state_flow_manager_tracking/models/state_flow_tracking.py:0
+msgid "%d minutes"
+msgstr "%d minutos"
+
+#. module: state_flow_manager_tracking
+#. odoo-python
+#: code:addons/state_flow_manager_tracking/models/state_flow_tracking.py:0
+msgid "%d seconds"
+msgstr "%d segundos"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__duration_display
+msgid "Duration"
+msgstr "Tiempo"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__duration
+msgid "Duration (Hours)"
+msgstr "Tiempo (Horas)"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__end
+msgid "End Date"
+msgstr "Fin"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__id
+msgid "ID"
+msgstr "ID"
+
+#. module: state_flow_manager_tracking
+#. odoo-python
+#: code:addons/state_flow_manager_tracking/models/state_flow_tracking.py:0
+msgid "In progress..."
+msgstr "En progreso..."
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__res_model
+msgid "Related Model"
+msgstr "Modelo relacionado"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__res_id
+msgid "Related Record"
+msgstr "Registro Relacionado"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__start
+msgid "Start Date"
+msgstr "Inicio"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_tracking__state_id
+msgid "State"
+msgstr "Estado"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model,name:state_flow_manager_tracking.model_state_flow_mixin
+msgid "State Flow Mixin"
+msgstr "Flujo de estados"
+
+#. module: state_flow_manager_tracking
+#: model:ir.actions.act_window,name:state_flow_manager_tracking.action_state_flow_tracking
+#: model:ir.model,name:state_flow_manager_tracking.model_state_flow_tracking
+#: model_terms:ir.ui.view,arch_db:state_flow_manager_tracking.view_state_flow_tracking_form
+#: model_terms:ir.ui.view,arch_db:state_flow_manager_tracking.view_state_flow_tracking_list
+msgid "State Flow Tracking"
+msgstr "Seguimiento de flujos de estados"
+
+#. module: state_flow_manager_tracking
+#: model:ir.model.fields,field_description:state_flow_manager_tracking.field_state_flow_mixin__tracking_ids
+msgid "State Tracking"
+msgstr "Seguimiento"
+
+#. module: state_flow_manager_tracking
+#: model:ir.ui.menu,name:state_flow_manager_tracking.menu_state_flow_tracking
+msgid "Tracking"
+msgstr "Seguimiento"
