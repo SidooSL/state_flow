@@ -16,6 +16,7 @@ class StateFlowMixin(models.AbstractModel):
         'state.flow.process',
         string='Process',    
         default=lambda self: self._default_process_id(),
+        ondelete='restrict',
     )
     current_state_id = fields.Many2one('state.flow.state', string='Current State',
                                        compute='_compute_current_state_id', store=True,

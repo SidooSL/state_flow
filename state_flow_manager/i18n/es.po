@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-24 13:18+0000\n"
-"PO-Revision-Date: 2026-02-24 13:18+0000\n"
+"POT-Creation-Date: 2026-02-25 15:40+0000\n"
+"PO-Revision-Date: 2026-02-25 15:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,12 @@ msgstr ""
 "# Contexto: 'record', 'user', 'env'\n"
 "# Debe retornar True/False\n"
 "# Ejemplo: record.project_manager_id == user"
+
+#. module: state_flow_manager
+#. odoo-python
+#: code:addons/state_flow_manager/models/state_flow_process.py:0
+msgid "%s (copy)"
+msgstr "%s (copia)"
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.portal_layout_inherit_state_flow
@@ -51,7 +57,8 @@ msgstr "<i class=\"fa fa-sitemap me-2\"/>Agregar nueva transición"
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
 msgid "<i class=\"fa fa-spinner fa-spin fa-3x text-muted\"/> Loading Diagram..."
-msgstr "<i class=\"fa fa-spinner fa-spin fa-3x text-muted\"/> Cargando diagrama..."
+msgstr ""
+"<i class=\"fa fa-spinner fa-spin fa-3x text-muted\"/> Cargando diagrama..."
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
@@ -136,7 +143,8 @@ msgstr "Usuarios con permiso de escritura"
 #. module: state_flow_manager
 #: model:res.groups,comment:state_flow_manager.group_state_flow_manager
 msgid "Allows managing state flow processes, states, and transitions."
-msgstr "Permite gestionar procesos, estados y transiciones del flujo de estados."
+msgstr ""
+"Permite gestionar procesos, estados y transiciones del flujo de estados."
 
 #. module: state_flow_manager
 #. odoo-python
@@ -166,8 +174,11 @@ msgstr "Datos UI de transiciones disponibles"
 
 #. module: state_flow_manager
 #: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__icon_class
-msgid "CSS class for an icon to represent this state (e.g., 'fa-play-circle')."
-msgstr "Clase CSS para un ícono que represente este estado (p. ej., 'fa-play-circle')."
+msgid ""
+"CSS class for an icon to represent this state (e.g., 'fa-play-circle')."
+msgstr ""
+"Clase CSS para un ícono que represente este estado (p. ej., 'fa-play-"
+"circle')."
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
@@ -177,7 +188,8 @@ msgstr "Cerrar"
 #. module: state_flow_manager
 #: model:res.groups,comment:state_flow_manager.group_state_flow_purchasing_admin
 msgid "Coordinates supplier certification process, requests reviews."
-msgstr "Coordina el proceso de certificación de proveedores y solicita revisiones."
+msgstr ""
+"Coordina el proceso de certificación de proveedores y solicita revisiones."
 
 #. module: state_flow_manager
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_process__create_uid
@@ -206,7 +218,9 @@ msgstr "Estado actual:"
 #. module: state_flow_manager
 #: model:res.groups,comment:state_flow_manager.group_state_flow_user
 msgid "Default user access to state flow functionalities."
-msgstr "Acceso predeterminado del usuario a las funcionalidades del flujo de estados."
+msgstr ""
+"Acceso predeterminado del usuario a las funcionalidades del flujo de "
+"estados."
 
 #. module: state_flow_manager
 #: model:ir.model.fields,help:state_flow_manager.field_state_flow_transition__allowed_users_code
@@ -320,7 +334,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/state_flow_manager/models/state_flow_mixin.py:0
 msgid "Error evaluating post-condition domain for transition %s: %s"
-msgstr "Error al evaluar el dominio de postcondición para la transición %s: %s"
+msgstr ""
+"Error al evaluar el dominio de postcondición para la transición %s: %s"
 
 #. module: state_flow_manager
 #. odoo-python
@@ -332,7 +347,7 @@ msgstr "Error al evaluar el dominio de precondición para la transición %s: %s"
 #. odoo-javascript
 #: code:addons/state_flow_manager/static/src/js/state_flow_manager_container.js:0
 msgid "Error: %s"
-msgstr "Error: %s"
+msgstr ""
 
 #. module: state_flow_manager
 #: model:res.groups,comment:state_flow_manager.group_state_flow_financial_evaluator
@@ -374,7 +389,7 @@ msgstr "Comité de Homologación (Flujo de estados)"
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__id
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: state_flow_manager
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__icon_class
@@ -392,8 +407,8 @@ msgid ""
 "If set, only these specific users can edit records in this state (in "
 "addition to standard access rights)."
 msgstr ""
-"Si se establece, solo estos usuarios específicos pueden editar registros en este estado (además "
-"de los derechos de acceso estándar)."
+"Si se establece, solo estos usuarios específicos pueden editar registros en "
+"este estado (además de los derechos de acceso estándar)."
 
 #. module: state_flow_manager
 #: model:ir.model.fields,help:state_flow_manager.field_state_flow_state__allowed_write_group_ids
@@ -401,8 +416,8 @@ msgid ""
 "If set, only users in these groups can edit records in this state (in "
 "addition to standard access rights)."
 msgstr ""
-"Si se establece, solo los usuarios en estos grupos pueden editar registros en este estado (además "
-"de los derechos de acceso estándar)."
+"Si se establece, solo los usuarios en estos grupos pueden editar registros "
+"en este estado (además de los derechos de acceso estándar)."
 
 #. module: state_flow_manager
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__in_transition_ids
@@ -624,8 +639,9 @@ msgid ""
 "Select a single Many2one field on the record (e.g., Project Manager) whose "
 "user should be allowed. Checked if specific users are not set."
 msgstr ""
-"Selecciona un campo Many2one del registro (p. ej., Gerente de proyecto) cuyo "
-"usuario debe estar permitido. Se verifica si no se establecen usuarios específicos."
+"Selecciona un campo Many2one del registro (p. ej., Gerente de proyecto) cuyo"
+" usuario debe estar permitido. Se verifica si no se establecen usuarios "
+"específicos."
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
@@ -645,13 +661,14 @@ msgid ""
 " specific users and single user field."
 msgstr ""
 "Selecciona uno o más campos Many2one del registro. Si el usuario actual "
-"coincide con el usuario en CUALQUIERA de estos campos, será permitido. Se verifica después"
-" de usuarios específicos y campo de usuario único."
+"coincide con el usuario en CUALQUIERA de estos campos, será permitido. Se "
+"verifica después de usuarios específicos y campo de usuario único."
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
 msgid "Select specific users that can edit records in this state"
-msgstr "Selecciona usuarios específicos que pueden editar registros en este estado"
+msgstr ""
+"Selecciona usuarios específicos que pueden editar registros en este estado"
 
 #. module: state_flow_manager
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_state__sequence
@@ -668,7 +685,9 @@ msgstr "Acción del servidor"
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.view_state_flow_process_form
 msgid "Standard Odoo access rights always apply in addition to these rules"
-msgstr "Los derechos de acceso estándar de Odoo siempre se aplican además de estas reglas"
+msgstr ""
+"Los derechos de acceso estándar de Odoo siempre se aplican además de estas "
+"reglas"
 
 #. module: state_flow_manager
 #: model_terms:ir.ui.view,arch_db:state_flow_manager.state_flow_web_diagram_page
@@ -768,8 +787,8 @@ msgid ""
 "The record does not meet the post-conditions after transition '%s'. State "
 "has been reverted."
 msgstr ""
-"El registro no cumple las postcondiciones después de la transición '%s'. El estado "
-"ha sido revertido."
+"El registro no cumple las postcondiciones después de la transición '%s'. El "
+"estado ha sido revertido."
 
 #. module: state_flow_manager
 #. odoo-python
@@ -784,8 +803,8 @@ msgid ""
 "The record you are trying to access does not exist, is not a state flow "
 "enabled model, or you do not have access."
 msgstr ""
-"El registro que intentas acceder no existe, no es un modelo con flujo de estados "
-"habilitado, o no tienes acceso."
+"El registro que intentas acceder no existe, no es un modelo con flujo de "
+"estados habilitado, o no tienes acceso."
 
 #. module: state_flow_manager
 #: model:ir.model.fields,field_description:state_flow_manager.field_state_flow_transition__to_state_id
@@ -866,7 +885,8 @@ msgstr "Campos de usuario del registro (Cualquiera de)"
 #. module: state_flow_manager
 #: model:ir.module.category,description:state_flow_manager.module_state_flow_manager_category
 msgid "User access levels for State Flow Management module"
-msgstr "Niveles de acceso de usuario para el módulo de Gestión de flujo de estados"
+msgstr ""
+"Niveles de acceso de usuario para el módulo de Gestión de flujo de estados"
 
 #. module: state_flow_manager
 #: model:res.groups,comment:state_flow_manager.group_state_flow_legal_evaluator

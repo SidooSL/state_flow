@@ -1,4 +1,4 @@
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class StateFlowProcess(models.Model):
@@ -18,8 +18,8 @@ class StateFlowProcess(models.Model):
 
     name = fields.Char(required=True)
     description = fields.Html(string='Description')
-    state_ids = fields.One2many('state.flow.state', 'process_id', string='States')
-    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions')
+    state_ids = fields.One2many('state.flow.state', 'process_id', string='States', copy=True)
+    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions', copy=True)
     model_id = fields.Many2one(
         'ir.model', 
         string='Model', 
@@ -79,3 +79,8 @@ class StateFlowProcess(models.Model):
         }
 
 
+    def copy(self, default=None):
+        self.ensure_one()
+        default = dict(default or {}, name=_("%s (copy)") % self.name)        
+        return super().copy(default)
+    
