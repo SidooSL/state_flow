@@ -11,6 +11,7 @@
                     <field name="tracking_ids">
                         <list>
                             <field name="state_id"/>
+                            <field name="create_uid"/>
                             <field name="start"/>
                             <field name="end"/>
                             <field name="duration_display"/>
