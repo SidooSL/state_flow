@@ -8,7 +8,7 @@
             
             <xpath expr="//notebook[last()]" position="inside">
                 <page string="Tracking" name="state_flow_tracking">
-                    <field name="tracking_ids">
+                    <field name="tracking_ids" readonly="1">
                         <list>
                             <field name="state_id"/>
                             <field name="create_uid"/>
