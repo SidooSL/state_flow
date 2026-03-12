@@ -1,4 +1,4 @@
-from odoo import api, models, fields, Command, _
+from odoo import api, models, fields, _
 
 
 class StateFlowProcess(models.Model):
@@ -18,8 +18,8 @@ class StateFlowProcess(models.Model):
 
     name = fields.Char(required=True)
     description = fields.Html(string='Description')
-    state_ids = fields.One2many('state.flow.state', 'process_id', string='States', copy=True)
-    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions', copy=True)
+    state_ids = fields.One2many('state.flow.state', 'process_id', string='States')
+    transition_ids = fields.One2many('state.flow.transition', 'process_id', string='Transitions')
     model_id = fields.Many2one(
         'ir.model', 
         string='Model', 
@@ -80,63 +80,18 @@ class StateFlowProcess(models.Model):
 
 
     def copy(self, default=None):
-        """Override copy to correctly duplicate states and transitions.
-
-        Odoo's default copy would clone transition records but keep their
-        from_state_id / to_state_id pointing to the *original* states, causing
-        those states to appear to own transitions from both processes.
-
-        Strategy:
-        1. Create the new process with empty state_ids and transition_ids so
-           Odoo's default copy mechanism does not touch either of those lists.
-        2. Copy each state manually, capturing the mapping
-           {original_state_id: new_state_id} at creation time (100% reliable,
-           no dependence on name/sequence uniqueness).
-        3. Re-create each transition pointing to the new states via the map.
-        """
         self.ensure_one()
         default = dict(default or {})
         default.setdefault('name', _("%s (copy)") % self.name)
-        # Prevent Odoo from auto-copying both One2many lists
-        default.setdefault('state_ids', [Command.clear()])
-        default.setdefault('transition_ids', [Command.clear()])
-
         new_process = super().copy(default)
-
-        # --- Step 1: copy states and build the ID map ---
-        state_map = {}  # {old_state_id: new_state_id}
-        for state in self.state_ids:
-            new_state = state.copy({'process_id': new_process.id})
-            state_map[state.id] = new_state.id
-
-        # --- Step 2: re-create transitions with translated state references ---
-        for transition in self.transition_ids:
-            new_from = state_map.get(transition.from_state_id.id)
-            new_to = state_map.get(transition.to_state_id.id)
-
-            if not new_from or not new_to:
-                # Guard: skip transitions whose states were not found in the map
-                # (should never happen in a consistent dataset)
-                continue
-
-            self.env['state.flow.transition'].create({
-                'sequence': transition.sequence,
-                'name': transition.name,
-                'description': transition.description,
+        state_map = {
+            state.id: state.copy({'process_id': new_process.id}).id
+            for state in self.state_ids
+        }
+        for t in self.transition_ids:
+            t.copy({
                 'process_id': new_process.id,
-                'from_state_id': new_from,
-                'to_state_id': new_to,
-                'server_action_id': transition.server_action_id.id,
-                'pre_condition_domain': transition.pre_condition_domain,
-                'domain_fail_message': transition.domain_fail_message,
-                'post_transition_domain': transition.post_transition_domain,
-                'post_transition_fail_message': transition.post_transition_fail_message,
-                'user_field_id': transition.user_field_id.id,
-                'allowed_users_code': transition.sudo().allowed_users_code,
-                'allowed_group_ids': [Command.set(transition.allowed_group_ids.ids)],
-                'allowed_user_ids': [Command.set(transition.allowed_user_ids.ids)],
-                'user_field_ids': [Command.set(transition.user_field_ids.ids)],
+                'from_state_id': state_map[t.from_state_id.id],
+                'to_state_id': state_map[t.to_state_id.id],
             })
-
         return new_process
-    
