@@ -17,7 +17,7 @@
                                     <span t-esc="state.processName" class="ms-2 fs-4"/>
                                 </h4>
                             </div>
-                            <div class="state-info ms-auto">
+                            <div class="state-info">
                                 <h4 class="mb-0">
                                     <strong class="text-primary">State:</strong>
                                     <span class="ms-2 fs-4">
