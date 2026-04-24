@@ -231,6 +231,7 @@ class StateFlowMixin(models.AbstractModel):
             # The standard run() should be sufficient if the action is configured correctly to use context.
             # server_action.run()
 
+        self = self.sudo()
         # Change current state
         self.current_state_id = transition.to_state_id
 
