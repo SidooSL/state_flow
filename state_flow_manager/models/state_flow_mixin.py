@@ -231,9 +231,8 @@ class StateFlowMixin(models.AbstractModel):
             # The standard run() should be sufficient if the action is configured correctly to use context.
             # server_action.run()
 
-        self = self.sudo()
         # Change current state
-        self.current_state_id = transition.to_state_id
+        self.sudo().current_state_id = transition.to_state_id
 
         # Post-condition domain check
         if transition.post_transition_domain:
@@ -241,13 +240,13 @@ class StateFlowMixin(models.AbstractModel):
                 post_domain = safe_eval(transition.post_transition_domain)
             except Exception as e:
                 # Revert state if post-condition evaluation fails
-                self.current_state_id = original_state_id
+                self.sudo().current_state_id = original_state_id
                 raise UserError(_('Error evaluating post-condition domain for transition %s: %s') % (transition.name, e))
 
             post_domain.append(('id', '=', self.id))
             if not self.env[self._name].search(post_domain):
                 # Revert state if post-condition fails
-                self.current_state_id = original_state_id
+                self.sudo().current_state_id = original_state_id
                 # Untrack the field to avoid logging the revert
                 # self.env.context = dict(self.env.context)
                 # self.env.context.pop('tracking_disable', None) # Ensure tracking is not disabled
