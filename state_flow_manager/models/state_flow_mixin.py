@@ -16,6 +16,7 @@ class StateFlowMixin(models.AbstractModel):
         'state.flow.process',
         string='Process',    
         default=lambda self: self._default_process_id(),
+        ondelete='restrict',
     )
     current_state_id = fields.Many2one('state.flow.state', string='Current State',
                                        compute='_compute_current_state_id', store=True,
@@ -210,17 +211,72 @@ class StateFlowMixin(models.AbstractModel):
         # Store original state in case of post-condition failure
         original_state_id = self.current_state_id
 
-        # Pre-condition domain check
-        if transition.pre_condition_domain:
+        pre_condition_domain = []
+        pre_condition_domain_code = (transition.pre_condition_domain or '').strip()
+        has_pre_condition_domain = bool(pre_condition_domain_code)
+        if has_pre_condition_domain:
             try:
-                domain = safe_eval(transition.pre_condition_domain)
+                pre_condition_domain = safe_eval(pre_condition_domain_code)
+                if not isinstance(pre_condition_domain, (list, tuple)):
+                    raise UserError(
+                        _("Pre-condition domain for transition '%s' must evaluate to a domain list or tuple.")
+                        % transition.name
+                    )
+                pre_condition_domain = list(pre_condition_domain)
+            except UserError:
+                raise
             except Exception as e:
                 raise UserError(_('Error evaluating pre-condition domain for transition %s: %s') % (transition.name, e))
-            
-            domain.append(('id', '=', self.id))
-            if not self.env[self._name].search(domain):
-                raise UserError(transition.domain_fail_message or 
-                                _("The record does not meet the pre-conditions for transition '%s'.") % transition.name)
+
+            record_domain = list(pre_condition_domain)
+            record_domain.append(('id', '=', self.id))
+            if not self.env[self._name].search(record_domain, limit=1):
+                raise UserError(
+                    transition.pre_condition_fail_message
+                    or _("The record does not meet the pre-conditions for transition '%s'.") % transition.name
+                )
+
+        pre_condition_filter_code = (transition.pre_condition_filter_code or '').strip()
+        if pre_condition_filter_code:
+            try:
+                pre_condition_subset = self.env[self._name].search(pre_condition_domain)
+            except Exception as e:
+                raise UserError(_('Error executing pre-condition domain search for transition %s: %s') % (transition.name, e))
+
+            eval_context = {
+                'env': self.env,
+                'record': self,
+                'subset': pre_condition_subset,
+                'user': self.env.user,
+                'log': lambda message: _logger.info(f'PreConditionSubsetCode (T{transition.id}, R{self.id}): {message}'),
+            }
+            try:
+                exec_context = dict(eval_context, result=None)
+                safe_eval(
+                    pre_condition_filter_code,
+                    exec_context,
+                    mode='exec',
+                    nocopy=True,
+                    filename=str(transition),
+                )
+                pre_condition_result = exec_context.get('result')
+                if pre_condition_result is None:
+                    pre_condition_result = safe_eval(pre_condition_filter_code, eval_context)
+            except Exception as e:
+                raise UserError(_('Error evaluating pre-condition subset filter for transition %s: %s') % (transition.name, e))
+
+            if not isinstance(pre_condition_result, bool):
+                raise UserError(
+                    _("Pre-condition subset filter for transition '%s' must return True or False, or assign result = True/False in Python code.")
+                    % transition.name
+                )
+
+            if not pre_condition_result:
+                raise UserError(
+                    transition.pre_condition_filter_fail_message
+                    or transition.pre_condition_fail_message
+                    or _("The record does not meet the subset pre-conditions for transition '%s'.") % transition.name
+                )
 
         # Execute server action before changing state
         server_action = transition.server_action_id
@@ -231,28 +287,76 @@ class StateFlowMixin(models.AbstractModel):
             # server_action.run()
 
         # Change current state
-        self.current_state_id = transition.to_state_id
+        self.sudo().current_state_id = transition.to_state_id
 
         # Post-condition domain check
-        if transition.post_transition_domain:
+        post_transition_domain_code = (transition.post_transition_domain or '').strip()
+        has_post_transition_domain = bool(post_transition_domain_code)
+        if has_post_transition_domain:
             try:
-                post_domain = safe_eval(transition.post_transition_domain)
+                post_domain = safe_eval(post_transition_domain_code)
             except Exception as e:
                 # Revert state if post-condition evaluation fails
-                self.current_state_id = original_state_id
+                self.sudo().current_state_id = original_state_id
                 raise UserError(_('Error evaluating post-condition domain for transition %s: %s') % (transition.name, e))
 
             post_domain.append(('id', '=', self.id))
             if not self.env[self._name].search(post_domain):
                 # Revert state if post-condition fails
-                self.current_state_id = original_state_id
-                # Untrack the field to avoid logging the revert
-                # self.env.context = dict(self.env.context)
-                # self.env.context.pop('tracking_disable', None) # Ensure tracking is not disabled
-                # self.with_context(tracking_disable=True).current_state_id = original_state_id
-                # self.env['mail.thread']._message_track_post_commit() # Try to force commit of tracking
+                self.sudo().current_state_id = original_state_id
                 raise UserError(transition.post_transition_fail_message or
                                 _('The record does not meet the post-conditions after transition \'%s\'. State has been reverted.') % transition.name)
+
+        post_transition_filter_code = (transition.post_transition_filter_code or '').strip()
+        if post_transition_filter_code:
+            try:
+                post_domain_for_subset = safe_eval(post_transition_domain_code) if has_post_transition_domain else []
+                post_condition_subset = self.env[self._name].search(post_domain_for_subset)
+            except Exception as e:
+                # Revert state if subset search fails
+                self.sudo().current_state_id = original_state_id
+                raise UserError(_('Error executing post-condition domain search for transition %s: %s') % (transition.name, e))
+
+            eval_context = {
+                'env': self.env,
+                'record': self,
+                'subset': post_condition_subset,
+                'user': self.env.user,
+                'log': lambda message: _logger.info(f'PostConditionSubsetCode (T{transition.id}, R{self.id}): {message}'),
+            }
+            try:
+                exec_context = dict(eval_context, result=None)
+                safe_eval(
+                    post_transition_filter_code,
+                    exec_context,
+                    mode='exec',
+                    nocopy=True,
+                    filename=str(transition),
+                )
+                post_condition_result = exec_context.get('result')
+                if post_condition_result is None:
+                    post_condition_result = safe_eval(post_transition_filter_code, eval_context)
+            except Exception as e:
+                # Revert state if filter code evaluation fails
+                self.sudo().current_state_id = original_state_id
+                raise UserError(_('Error evaluating post-condition subset filter for transition %s: %s') % (transition.name, e))
+
+            if not isinstance(post_condition_result, bool):
+                # Revert state if result is not boolean
+                self.sudo().current_state_id = original_state_id
+                raise UserError(
+                    _("Post-condition subset filter for transition '%s' must return True or False, or assign result = True/False in Python code.")
+                    % transition.name
+                )
+
+            if not post_condition_result:
+                # Revert state if post-condition fails
+                self.sudo().current_state_id = original_state_id
+                raise UserError(
+                    transition.post_transition_filter_fail_message
+                    or transition.post_transition_fail_message
+                    or _("The record does not meet the post-condition subset filter for transition '%s'. State has been reverted.") % transition.name
+                )
 
     @api.model
     def check_access_rights(self, operation, raise_exception=True):

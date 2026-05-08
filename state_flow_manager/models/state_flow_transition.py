@@ -7,7 +7,7 @@ class StateFlowTransition(models.Model):
     sequence = fields.Integer()
     name = fields.Char(required=True)
     description = fields.Text()
-    process_id = fields.Many2one('state.flow.process', required=True)
+    process_id = fields.Many2one('state.flow.process', required=True, ondelete='cascade')
     model_name_for_domain = fields.Char(related='process_id.model_id.model', store=True, string="Model Name for Domain")
     from_state_id = fields.Many2one('state.flow.state', string='From', required=True,
                                     domain="[('process_id', '=', process_id)]")
@@ -17,7 +17,33 @@ class StateFlowTransition(models.Model):
     model_name = fields.Char(string="Target Model Technical Name", related='model_id.model')
     server_action_id = fields.Many2one('ir.actions.server', domain="[('model_id', '=', model_id)]")
     pre_condition_domain = fields.Char(string="Pre-condition Domain")
-    domain_fail_message = fields.Text(string="Pre-condition Fail Message")
+    pre_condition_fail_message = fields.Text(string="Pre-condition Fail Message")
+    pre_condition_filter_code = fields.Text(
+        string='Python Expression for Pre-condition Subset',
+        help='''Define an additional pre-condition expression executed after domain search.
+
+**Available Variables:**
+- record: Current business object (after the transition would occur)
+- subset: Recordset returned by search(domain), or empty set if no domain defined
+- env: Odoo environment
+- user: Current res.users object performing the transition
+- log: Function to log debug messages
+
+**Return Value:**
+The code must return or assign to `result` a boolean value (True or False).
+You can either:
+1. Use a simple expression that returns boolean:
+   - result = record in subset and all(r.line_ids.mapped("is_ready") for r in subset)
+2. Or assign to result= inside your code:
+   - subset_valid = bool(subset.filtered(lambda r: r.id == record.id))
+   - result = subset_valid
+
+**If transition is blocked:**
+When result is False or undefined, transition is blocked.
+Invalid code or non-boolean result blocks transition.
+             '''
+    )
+    pre_condition_filter_fail_message = fields.Text(string="Pre-condition Subset Filter Fail Message")
     allowed_group_ids = fields.Many2many('res.groups', string='Allowed Groups')
     allowed_user_ids = fields.Many2many('res.users', string='Allowed Specific Users')
     user_field_id = fields.Many2one(
@@ -59,3 +85,29 @@ class StateFlowTransition(models.Model):
     )
     post_transition_domain = fields.Char(string="Post-condition Domain")
     post_transition_fail_message = fields.Text(string="Post-condition Fail Message")
+    post_transition_filter_code = fields.Text(
+        string='Python Expression for Post-condition Subset',
+        help='''Define an additional post-condition expression executed after the state transition.
+
+**Available Variables:**
+- record: Current business object (AFTER state change)
+- subset: Recordset returned by search(domain), or empty set if no domain defined
+- env: Odoo environment
+- user: Current res.users object who performed the transition
+- log: Function to log debug messages
+
+**Return Value:**
+The code must return or assign to `result` a boolean value (True or False).
+You can either:
+1. Use a simple expression that returns boolean:
+   - result = record in subset and record.stage_id.name == 'Done'
+2. Or assign to result= inside your code:
+   - is_valid = bool(subset.filtered(lambda r: r.id == record.id and all(r.line_ids.mapped('is_validated'))))
+   - result = is_valid
+
+**If post-condition fails:**
+When result is False or undefined, the transition is REVERTED to the previous state.
+Invalid code or non-boolean result reverts transition.
+             '''
+    )
+    post_transition_filter_fail_message = fields.Text(string="Post-condition Subset Filter Fail Message")

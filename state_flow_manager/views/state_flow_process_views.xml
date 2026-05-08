@@ -97,13 +97,62 @@
                                                 <group>
                                                     <field name="model_name_for_domain" invisible="1" force_save="True"/>
                                                     <field name="pre_condition_domain" widget="domain" options="{'model': 'model_name_for_domain', 'in_dialog': True}"/>
-                                                    <field name="domain_fail_message" placeholder="e.g., The record must be active." attrs="{'invisible': [('pre_condition_domain', 'in', ('[]', False, ''))]}"/>
+                                                    <field name="pre_condition_fail_message" placeholder="e.g., The record must be active." attrs="{'invisible': [('pre_condition_domain', 'in', ('[]', False, ''))]}" />
+                                                    <div class="w-100 d-flex flex-row gap-3" groups="base.group_system,state_flow_manager.group_state_flow_manager">
+                                                        <field name="pre_condition_filter_code" class="w-50" widget="code" options="{'mode': 'python'}"/>
+                                                        <div class="w-50 opacity-75">
+                                                            <span class="text-muted"> Available variables: </span>
+                                                            <ul class="text-muted">
+                                                                <li><code>record</code>: current business object</li>
+                                                                <li><code>subset</code>: recordset returned by search(domain), or empty set if no domain</li>
+                                                                <li><code>env</code>: Odoo environment</li>
+                                                                <li><code>user</code>: current res.users object</li>
+                                                                <li><code>log(message, level='info')</code>: logging function</li>
+                                                                <li><code>_logger.info(message)</code>: logger for server logs</li>
+                                                                <li><code>UserError</code>: exception class for raising user-facing warning messages</li>
+                                                                <li><code>Command</code>: x2many commands namespace</li>
+                                                                <li><code>time</code>, <code>datetime</code>, <code>dateutil</code>, <code>timezone</code>: useful Python libraries</li>
+                                                                <li>To return a value, assign: <code>result = True/False</code></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <field name="pre_condition_filter_fail_message" placeholder="e.g., Record must satisfy subset validation."
+                                                        attrs="{'invisible': [('pre_condition_filter_code', 'in', (False, ''))]}"/>
                                                 </group>
+                                                <div class="alert alert-info" role="alert" groups="base.group_system,state_flow_manager.group_state_flow_manager">
+                                                    <strong>Execution Order:</strong>
+                                                    <ul class="mb-0">
+                                                        <li>Domain is executed first</li>
+                                                        <li>Subset is built from domain search results</li>
+                                                        <li>Python expression runs over subset and must return True or False</li>
+                                                    </ul>
+                                                </div>
                                             </page>
                                             <page string="Post-conditions" name="post_conditions">
                                                  <group>
                                                     <field name="post_transition_domain" widget="domain" options="{'model': 'model_name_for_domain', 'in_dialog': True}"/>
                                                     <field name="post_transition_fail_message" placeholder="e.g., The record must now be in 'Validated' stage." attrs="{'invisible': [('post_transition_domain', 'in', ('[]', False, ''))]}"/>
+                                                    <div class="w-100 d-flex flex-row gap-3" groups="base.group_system,state_flow_manager.group_state_flow_manager">
+                                                        <field name="post_transition_filter_code" class="w-50" widget="code" options="{'mode': 'python'}"/>
+                                                        <div class="w-50 opacity-75">
+                                                            <span class="text-muted"> Available variables: </span>
+                                                            <ul class="text-muted">
+                                                                <li><code>record</code>: current business object (after state change)</li>
+                                                                <li><code>subset</code>: recordset returned by search(domain), or empty set if no domain</li>
+                                                                <li><code>env</code>: Odoo environment</li>
+                                                                <li><code>user</code>: current res.users object who performed the transition</li>
+                                                                <li><code>log(message, level='info')</code>: logging function</li>
+                                                                <li><code>_logger.info(message)</code>: logger for server logs</li>
+                                                                <li><code>UserError</code>: exception class for raising user-facing warning messages</li>
+                                                                <li><code>Command</code>: x2many commands namespace</li>
+                                                                <li><code>time</code>, <code>datetime</code>, <code>dateutil</code>, <code>timezone</code>: useful Python libraries</li>
+                                                                <li>To return a value, assign: <code>result = True/False</code></li>
+                                                                <li>If <code>result</code> is False, transition is reverted.</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <field name="post_transition_filter_fail_message" placeholder="e.g., Record must satisfy post-transition validation."
+                                                        attrs="{'invisible': [('post_transition_filter_code', 'in', (False, ''))]}"/>
                                                 </group>
                                             </page>
                                             <page string="Access Rights" name="access_rights">
